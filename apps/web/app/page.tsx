@@ -1,6 +1,7 @@
+import React from "react";
 import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
+import Form from "@repo/ui/components/form/index";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -18,7 +19,7 @@ const ThemeImage = (props: Props) => {
   );
 };
 
-export default function Home(): JSX.Element {
+export default function Home(): React.ReactElement {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -63,9 +64,8 @@ export default function Home(): JSX.Element {
             Read our docs
           </a>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
+        <Form.Button appName="web" label="Open alert-" />
+
       </main>
       <footer className={styles.footer}>
         <a
