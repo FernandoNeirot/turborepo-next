@@ -29,6 +29,17 @@ const config: StorybookConfig = {
         "@tu-org/ui": path.resolve(__dirname, "../../../packages/ui/src"),
       };
     }
+    
+    // Configurar Vite para manejar correctamente React
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      include: [
+        ...(config.optimizeDeps?.include || []),
+        'react',
+        'react-dom',
+      ],
+    };
+    
     return config;
   }
 };
