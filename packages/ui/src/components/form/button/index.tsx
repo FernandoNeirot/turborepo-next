@@ -5,7 +5,7 @@ import { iconMap, type IconName } from './helpers/iconMap';
 export interface ButtonProps {
   appName?: 'web' | 'storybook';
   label?: string;
-  variant?: 'default' | 'delete'
+  variant?: 'default' | 'delete' | 'search'
   isDisabled?: boolean;
   onClick: () => void;
   icon?: IconName;
@@ -25,7 +25,7 @@ export const Button = ({
       disabled={isDisabled}
       type="button"
       className={`
-        px-2 py-2 rounded font-semibold transition-colors text-white flex items-center
+        px-2 py-2 rounded${variant === 'search' ? '-r-xl' : '-md'} font-semibold transition-colors text-white flex items-center
         ${isDisabled ?
           "bg-gray-400 cursor-not-allowed hover:bg-gray-400" :
           variant === 'delete' ?

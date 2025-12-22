@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes } from 'react'
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -11,6 +11,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string
   type?: string
   placeholder?: string
+  variant?: 'default' | 'search'
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
@@ -18,10 +19,25 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Input = ({ label, error, helperText, appName, isDisabled, onChange,
-  name, id, value, type = 'text', placeholder, onBlur, onFocus, onKeyDown, onKeyUp
+const Input = ({ 
+  label, 
+  error, 
+  helperText, 
+  appName, 
+  isDisabled, 
+  onChange,
+  name, 
+  id, 
+  value, 
+  type = 'text', 
+  placeholder, 
+  onBlur, 
+  onFocus, 
+  onKeyDown, 
+  onKeyUp,
+  variant = 'default',
 }: InputProps) => {
-  const classByAppName = appName === 'web' ? 'focus:ring-blue-300' : 'focus:ring-purple-300';
+  const classByAppName = variant === 'search' ? 'focus:ring-transparent' : appName === 'web' ? 'focus:ring-blue-300' : 'focus:ring-purple-300';
   return (
     <div className="flex flex-col gap-1 w-full">
       {label && (
@@ -32,7 +48,7 @@ const Input = ({ label, error, helperText, appName, isDisabled, onChange,
       <input
         disabled={isDisabled}
         className={`
-          px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${classByAppName}
+          px-3 py-2 ${variant === 'search' ? '' : 'border '} focus:outline-none focus:ring-2 ${classByAppName}
           ${!!error ? 
             'border-red-500' :   
             isDisabled ?
