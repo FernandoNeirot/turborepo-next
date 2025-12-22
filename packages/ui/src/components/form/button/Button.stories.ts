@@ -6,7 +6,7 @@ import { Button } from '.';
 import { iconNames } from './helpers/iconMap';
 
 const meta = {
-  title: 'Example/Button',
+  title: 'Form/Button',
   component: Button,
   parameters: {  
     layout: 'centered',
