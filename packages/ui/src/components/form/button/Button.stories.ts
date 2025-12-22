@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { fn } from 'storybook/test';
 
-import { Button } from './Button';
+import { Button } from '.';
+import { iconNames } from './helpers/iconMap';
 
 const meta = {
   title: 'Example/Button',
@@ -19,7 +20,8 @@ const meta = {
   },  
   tags: ['autodocs'],  
   argTypes: {
-    // backgroundColor: { control: 'color' },
+    icon: { control: 'select', options: [...iconNames, null] },
+    variant: { control: 'select', options: ['default', 'delete'] },
   },  
   args: { onClick: fn() },
 } satisfies Meta<typeof Button>;
@@ -27,9 +29,32 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Activo: Story = {
+export const label: Story = {
   args: {
     label: 'Guardar',
-    appName: "web"
+    appName: "web",
+    isDisabled: false,
+  },
+};
+export const disabled: Story = {
+  args: {
+    label: 'Guardar',
+    appName: "web",
+    isDisabled: true,
+  },
+};
+export const LabelConIcon: Story = {
+  args: {
+    label: 'Guardar',
+    appName: "web",
+    icon: 'search',
+    isDisabled: false,
+  },
+};
+export const OnlyIcon: Story = {
+  args: {
+    appName: "web",
+    icon: 'search',
+    isDisabled: false,
   },
 };
