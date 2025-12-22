@@ -3,6 +3,8 @@ import Image, { type ImageProps } from "next/image";
 import styles from "./page.module.css";
 import Form from "@repo/ui/components/form/index";
 
+// Tailwind classes from UI package: px-4 py-2 rounded font-semibold transition-colors bg-blue-500 text-white hover:bg-blue-600 bg-purple-500 hover:bg-purple-600
+
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
   srcDark: string;
@@ -65,6 +67,9 @@ export default function Home(): React.ReactElement {
           </a>
         </div>
         <Form.Button appName="web" label="Open alert-" />
+        <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          Test Tailwind Button
+        </button>
 
       </main>
       <footer className={styles.footer}>

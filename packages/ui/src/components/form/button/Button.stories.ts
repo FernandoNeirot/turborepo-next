@@ -27,26 +27,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const Activo: Story = {
   args: {
-    label: 'Button',
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    label: 'Button',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    label: 'Button',
-  },
-};
-
-export const Small: Story = {
-  args: {
-    label: 'Button',
+    label: 'Guardar',
+    appName: "web"
   },
 };

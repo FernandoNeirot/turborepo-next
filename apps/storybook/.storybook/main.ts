@@ -1,7 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import path from "path";
 import { dirname } from "path"
-
 import { fileURLToPath } from "url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -39,6 +38,13 @@ const config: StorybookConfig = {
         'react-dom',
       ],
     };
+    
+    // Configurar PostCSS con Tailwind v4
+    if (!config.css) {
+      config.css = {};
+    }
+    
+    config.css.postcss = path.resolve(__dirname, '../postcss.config.mjs');
     
     return config;
   }
