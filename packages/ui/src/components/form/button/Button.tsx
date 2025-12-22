@@ -15,10 +15,10 @@ export const Button = ({
   return (
     <button
       type="button"
-      className={`btn btn-${appName}`}
+      className={`text-black bg-red-500 btn-${appName}`}
       onClick={onClick}
     >
-      {label}
+      {label}-
     </button>
   );
 };
