@@ -1,4 +1,4 @@
-import { ProductCard, ProductCardProps } from "./productCard";
+import { ProductCard, type ProductCardProps } from "./productCard";
 
 export const Wrapper = {
   ProductCard
@@ -6,7 +6,8 @@ export const Wrapper = {
 
 export type WrapperType = {
   ProductCard: typeof ProductCard;
-  ProductCardProps: ProductCardProps;
 };
+
+export type { ProductCardProps };
 
 export default Wrapper;

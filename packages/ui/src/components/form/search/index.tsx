@@ -12,6 +12,7 @@ export interface SearchProps {
   onClick: () => void;
   icon?: IconName;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }
 
 export const Search = ({
@@ -19,9 +20,10 @@ export const Search = ({
   variant = 'default',
   onClick,
   onChange,
+  className
 }: SearchProps) => {  
   return (
-    <div className='flex border rounded-xl border-gray-300 overflow-hidden'>
+    <div className={`flex border rounded-xl border-gray-300 overflow-hidden ${className}`}>
       <Input placeholder="Search..." isDisabled={isDisabled} onChange={onChange} variant={variant} />
       <Button onClick={onClick} variant="search" icon='search' isDisabled={isDisabled} />
     </div>

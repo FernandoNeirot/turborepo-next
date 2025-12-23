@@ -15,6 +15,7 @@ export interface ProductCardProps {
   title?: string;
   description?: string;
   width?: number | "full";
+  height?: number;
   price?: number;
   bgButtonLeft?: keyof typeof BUTTON_BACKGROUND_COLORS;
   bgButtonRight?: keyof typeof BUTTON_BACKGROUND_COLORS;
@@ -33,11 +34,13 @@ export const ProductCard = ({
   title = "",
   description = "",
   width = "full",
+
   price,
   bgButtonLeft = 'BLUE',
   bgButtonRight = 'PURPLE',
   sizeButton = 'default',
   flexDirection = 'row',
+  height = 200,
 }: ProductCardProps) => {
   const widthStyle =  { width: typeof width === 'number' ? `${width}px` : "100%" };
   return (
@@ -52,6 +55,7 @@ export const ProductCard = ({
           width={600}
           height={300}
           className="object-cover transition-transform duration-300 hover:scale-120"
+          style={{height}}
         />
         <div className="absolute cursor-default bottom-0 right-0 bg-blue-900 bg-opacity-50 rounded-tl-lg text-white p-2 text-sm">
           $ {price?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
