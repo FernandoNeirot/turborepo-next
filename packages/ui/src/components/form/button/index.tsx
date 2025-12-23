@@ -25,7 +25,7 @@ export const Button = ({
       disabled={isDisabled}
       type="button"
       className={`
-      shadow-md px-2 py-2 rounded${variant === 'search' ? '-r-xl' : '-lg'} font-semibold transition-colors text-white flex items-center
+      shadow-md px-2 py-2 cursor-pointer rounded${variant === 'search' ? '-r-xl' : '-lg'} font-semibold transition-colors text-white flex items-center
       ${isDisabled ?
         "bg-gray-400 cursor-not-allowed hover:bg-gray-400" :
         backgroundColor
