@@ -2,6 +2,8 @@ import type { StorybookConfig } from '@storybook/react-vite';
 import path from "path";
 import { dirname } from "path"
 import { fileURLToPath } from "url"
+import tailwindcss from '@tailwindcss/postcss';
+import autoprefixer from 'autoprefixer';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -26,6 +28,8 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         "@tu-org/ui": path.resolve(__dirname, "../../../packages/ui/src"),
+        // Mock de next/image para Storybook
+        "next/image": path.resolve(__dirname, "./next-image-stub.tsx"),
       };
     }
     
@@ -39,12 +43,33 @@ const config: StorybookConfig = {
       ],
     };
     
-    // Configurar PostCSS con Tailwind v4
+    // Configurar PostCSS con Tailwind v4 directamente
     if (!config.css) {
       config.css = {};
     }
     
-    config.css.postcss = path.resolve(__dirname, '../postcss.config.mjs');
+    // Configurar PostCSS directamente con los plugins
+    config.css.postcss = {
+      plugins: [
+        tailwindcss,
+        autoprefixer,
+      ],
+    };
+    
+    // Definir process para componentes que puedan usar Next.js
+    if (!config.define) {
+      config.define = {};
+    }
+    config.define['process.env'] = JSON.stringify({});
+    config.define['process.env.NODE_ENV'] = JSON.stringify('development');
+    
+    // Excluir next/image de la optimización para evitar errores
+    if (config.optimizeDeps) {
+      config.optimizeDeps.exclude = [
+        ...(config.optimizeDeps.exclude || []),
+        'next/image',
+      ];
+    }
     
     return config;
   }

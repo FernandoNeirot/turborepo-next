@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { fn } from 'storybook/test';
 
-import { iconNames } from './helpers/iconMap';
 import { Search } from '.';
+import { iconNames } from '../button/helpers/constans';
 
 const meta = {
   title: 'Form/Search',

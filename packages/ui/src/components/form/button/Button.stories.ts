@@ -3,26 +3,26 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from 'storybook/test';
 
 import { Button } from '.';
-import { iconNames } from './helpers/iconMap';
+import { iconNames } from './helpers/constans';
 
 const meta = {
   title: 'Form/Button',
   component: Button,
-  parameters: {  
+  parameters: {
     layout: 'centered',
     backgrounds: {
-    default: 'light',
-    values: [
-      { name: 'light', value: '#ffffff' },
-      { name: 'dark', value: '#333333' },
-    ],
+      default: 'light',
+      values: [
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#333333' },
+      ],
+    },
   },
-  },  
-  tags: ['autodocs'],  
+  tags: ['autodocs'],
   argTypes: {
-    icon: { control: 'select', options: [...iconNames, null] },
+    icon: { control: 'select', options: [...iconNames] },
     variant: { control: 'select', options: ['default', 'delete'] },
-  },  
+  },
   args: { onClick: fn() },
 } satisfies Meta<typeof Button>;
 
@@ -32,28 +32,24 @@ type Story = StoryObj<typeof meta>;
 export const label: Story = {
   args: {
     label: 'Guardar',
-    appName: "web",
     isDisabled: false,
   },
 };
 export const disabled: Story = {
   args: {
     label: 'Guardar',
-    appName: "web",
     isDisabled: true,
   },
 };
 export const LabelConIcon: Story = {
   args: {
     label: 'Guardar',
-    appName: "web",
     icon: 'search',
     isDisabled: false,
   },
 };
 export const OnlyIcon: Story = {
   args: {
-    appName: "web",
     icon: 'search',
     isDisabled: false,
   },
