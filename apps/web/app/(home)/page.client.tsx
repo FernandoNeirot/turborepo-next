@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
 import Image from 'next/image'
-import Form from "@repo/ui/components/form/index";
-import { ProductCard } from "@repo/ui/components/wrapper/productCard/index";
+import Form from "@fernando_neirot2/ui/components/form/index";
+import { ProductCard } from "@fernando_neirot2/ui/components/wrapper/productCard/index";
 
 const HomeClient = () => {
   return (
