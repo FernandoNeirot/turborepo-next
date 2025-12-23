@@ -11,12 +11,15 @@ export interface ProductCardProps {
   onClickButtonRight: () => void;
   labelButtonRight?: string;
   iconButtonRight?: IconName;
-  appName?: string;
   imageUrl?: string;
   title?: string;
   description?: string;
-  width?: string;
+  width?: number | "full";
   price?: number;
+  bgButtonLeft?: keyof typeof BUTTON_BACKGROUND_COLORS;
+  bgButtonRight?: keyof typeof BUTTON_BACKGROUND_COLORS;
+  sizeButton?: 'small' | 'default';
+  flexDirection?: 'row' | 'column';
 }
 
 export const ProductCard = ({
@@ -29,12 +32,18 @@ export const ProductCard = ({
   imageUrl = "",
   title = "",
   description = "",
-  width = "w-full",
-  price
+  width = "full",
+  price,
+  bgButtonLeft = 'BLUE',
+  bgButtonRight = 'PURPLE',
+  sizeButton = 'default',
+  flexDirection = 'row',
 }: ProductCardProps) => {
+  const widthStyle =  { width: typeof width === 'number' ? `${width}px` : "100%" };
   return (
     <div
-      className={`border border-gray-300 shadow-xl rounded-lg overflow-hidden ${width}`}
+      className={`border border-gray-300 shadow-xl rounded-lg overflow-hidden`}
+      style={widthStyle}
     >
       <div className='relative bg-red-400 overflow-hidden'>
         <Image
@@ -44,25 +53,27 @@ export const ProductCard = ({
           height={300}
           className="object-cover transition-transform duration-300 hover:scale-120"
         />
-        <div className="absolute bottom-0 right-0 bg-blue-900 bg-opacity-50 rounded-tl-lg text-white p-2 text-sm">
+        <div className="absolute cursor-default bottom-0 right-0 bg-blue-900 bg-opacity-50 rounded-tl-lg text-white p-2 text-sm">
           $ {price?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </div>
       </div>
       <div className='px-4 pb-4 pt-1 bg-gray-100'>
         <h2 className="text-lg font-semibold mt-2">{title}</h2>
         <p className="text-sm text-gray-600 h-10 line-clamp-2">{description}</p>
-        <div className='flex w-full justify-between mt-4'>
+        <div className={`flex w-full justify-between mt-4 ${flexDirection === 'column' ? 'flex-col gap-2' : 'flex-row'}`}>
           <Button
             onClick={onClickButtonLeft}
             label={labelButtonLeft}
-            backgroundColor={BUTTON_BACKGROUND_COLORS.BLUE}
+            backgroundColor={bgButtonLeft}
             icon={iconButtonLeft}
+            size={sizeButton}
           />
           <Button
             onClick={onClickButtonRight}
             label={labelButtonRight}
-            backgroundColor={BUTTON_BACKGROUND_COLORS.PURPLE}
+            backgroundColor={bgButtonRight}
             icon={iconButtonRight}
+            size={sizeButton}
           />
         </div>
       </div>

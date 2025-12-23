@@ -17,7 +17,8 @@ export const iconNames = Object.keys(iconMap) as IconName[];
 
 export const BUTTON_BACKGROUND_COLORS = {
   BLUE: "bg-blue-500 hover:bg-blue-600",
-  RED: "bg-red-500 hover:bg-red-600",
-  PURPLE: "bg-purple-600 hover:bg-purple-700",
+  GREEN: "bg-green-500 hover:bg-green-600",
   GRAY: "bg-gray-400 cursor-not-allowed hover:bg-gray-400",
+  PURPLE: "bg-purple-600 hover:bg-purple-700",
+  RED: "bg-red-500 hover:bg-red-600",
 } as const;
