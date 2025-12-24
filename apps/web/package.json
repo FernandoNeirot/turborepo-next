@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
+    "dev:webpack": "next dev --port 3000 --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings 0",
@@ -12,9 +13,11 @@
   },
   "dependencies": {
     "@fernando_neirot2/ui": "workspace:*",
+    "@tanstack/react-query": "^5.90.12",
     "next": "16.0.10",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
