@@ -47,12 +47,18 @@ export const ProductCard = ({
       style={widthStyle}
     >
       <div className='relative overflow-hidden bg-white' style={{ height }}>
-        <Image
-          src={imageUrl}
-          alt="Product Image"
-          fill
-          className="h-full object-contain object-center transition-transform duration-500 hover:scale-140 mx-auto"
-        />
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt="Product Image"
+            fill
+            className="h-full object-contain object-center transition-transform duration-500 hover:scale-140 mx-auto"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gray-200">
+            <span className="text-gray-400 text-sm">Sin imagen</span>
+          </div>
+        )}
         <div className="absolute cursor-default bottom-0 right-0 bg-blue-900 bg-opacity-50 rounded-tl-lg text-white p-2 text-sm shadow-[-0px_-0px_6px_rgba(255,255,255,0.8)]">
           $ {price?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </div>

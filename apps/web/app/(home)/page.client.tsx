@@ -1,13 +1,29 @@
 'use client'
 
 import React, { useState } from 'react';
+import { HydrationBoundary, type DehydratedState } from '@tanstack/react-query';
 import { SearchBar } from '../features/search';
 import { ProductList, useProducts } from '../features/products';
 
-const HomeClient = () => {
+interface HomeClientProps {
+  dehydratedState?: DehydratedState;
+}
+
+const HomeClient = ({ dehydratedState }: HomeClientProps) => {
+  if (dehydratedState) {
+    return (
+      <HydrationBoundary state={dehydratedState}>
+        <HomeContentWrapper />
+      </HydrationBoundary>
+    );
+  }
+
+  return <HomeContentWrapper />;
+};
+
+const HomeContentWrapper = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { filteredProducts, isLoading, error } = useProducts({ searchQuery });
-
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
   };
