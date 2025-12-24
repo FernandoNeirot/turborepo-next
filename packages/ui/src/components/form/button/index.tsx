@@ -1,4 +1,3 @@
-'use client'
 import React from 'react';
 import { BUTTON_BACKGROUND_COLORS, iconMap, type IconName } from './helpers/constans';
 

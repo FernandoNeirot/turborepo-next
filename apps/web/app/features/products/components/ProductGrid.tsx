@@ -40,7 +40,7 @@ export function ProductGrid({ products, actions, className }: ProductGridProps) 
           onClickButtonRight={() => handleAddToCart(product.id)}
           imageUrl={product.imageUrl}
           width="full"
-          height={150}
+          height={200}
           price={product.price}
           title={product.title}
           description={product.description}

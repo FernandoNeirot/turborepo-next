@@ -1,6 +1,5 @@
-'use client'
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
 import { Button } from '../../form/button';
 import { BUTTON_BACKGROUND_COLORS, IconName } from '../../form/button/helpers/constans';
 
@@ -34,13 +33,12 @@ export const ProductCard = ({
   title = "",
   description = "",
   width = "full",
-
   price,
   bgButtonLeft = 'BLUE',
   bgButtonRight = 'PURPLE',
   sizeButton = 'default',
   flexDirection = 'row',
-  height = 200,
+  height = 250,
 }: ProductCardProps) => {
   const widthStyle =  { width: typeof width === 'number' ? `${width}px` : "100%" };
   return (
@@ -48,14 +46,12 @@ export const ProductCard = ({
       className={`border border-gray-300 shadow-xl rounded-lg overflow-hidden`}
       style={widthStyle}
     >
-      <div className='relative bg-red-400 overflow-hidden'>
+      <div className='relative overflow-hidden bg-white' style={{ height }}>
         <Image
           src={imageUrl}
           alt="Product Image"
-          width={600}
-          height={300}
-          className="object-cover transition-transform duration-300 hover:scale-120"
-          style={{height}}
+          fill
+          className="h-full object-contain object-center transition-transform duration-500 hover:scale-140 mx-auto"
         />
         <div className="absolute cursor-default bottom-0 right-0 bg-blue-900 bg-opacity-50 rounded-tl-lg text-white p-2 text-sm shadow-[-0px_-0px_6px_rgba(255,255,255,0.8)]">
           $ {price?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
