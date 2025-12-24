@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '../button';
 import Input from '../input';
-import { IconName } from '../button/helpers/constans';
+import { BUTTON_BACKGROUND_COLORS, IconName } from '../button/helpers/constans';
 
 export interface SearchProps {
   appName?: 'web' | 'storybook';
@@ -13,6 +13,7 @@ export interface SearchProps {
   icon?: IconName;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  bgColor?: keyof typeof BUTTON_BACKGROUND_COLORS;
 }
 
 export const Search = ({
@@ -20,12 +21,13 @@ export const Search = ({
   variant = 'default',
   onClick,
   onChange,
-  className
+  className,
+  bgColor="BLUE"
 }: SearchProps) => {  
   return (
     <div className={`flex border rounded-xl border-gray-300 overflow-hidden ${className}`}>
       <Input placeholder="Search..." isDisabled={isDisabled} onChange={onChange} variant={variant} />
-      <Button onClick={onClick} variant="search" icon='search' isDisabled={isDisabled} />
+      <Button onClick={onClick} variant="search" icon='search' isDisabled={isDisabled} backgroundColor={bgColor} />
     </div>
   );
 };

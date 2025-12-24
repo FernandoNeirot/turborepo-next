@@ -57,7 +57,7 @@ export const ProductCard = ({
           className="object-cover transition-transform duration-300 hover:scale-120"
           style={{height}}
         />
-        <div className="absolute cursor-default bottom-0 right-0 bg-blue-900 bg-opacity-50 rounded-tl-lg text-white p-2 text-sm">
+        <div className="absolute cursor-default bottom-0 right-0 bg-blue-900 bg-opacity-50 rounded-tl-lg text-white p-2 text-sm shadow-[-0px_-0px_6px_rgba(255,255,255,0.8)]">
           $ {price?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </div>
       </div>
