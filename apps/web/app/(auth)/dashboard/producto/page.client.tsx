@@ -1,8 +1,10 @@
 'use client'
 import React from 'react'
 import { ProductForm, useProductMutation } from '../../../features/products'
+import { useAuth } from '../../../shared/providers/AuthContext'
 
 const DashboardProducto = () => {
+  const auth = useAuth();
   const { createProductAsync, isLoading } = useProductMutation({
     redirectOnSuccess: '/dashboard',
     // TODO: Implementar notificaciones con toasts
@@ -16,7 +18,7 @@ const DashboardProducto = () => {
 
   const handleSubmit = async (data: Parameters<typeof createProductAsync>[0]) => {
     try {
-      await createProductAsync(data);
+      await createProductAsync({...data,userId: auth.user?.uid});
     } catch (error) {
       console.error('Error al crear producto:', error);
     }

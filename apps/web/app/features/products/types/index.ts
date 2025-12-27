@@ -16,6 +16,7 @@ export interface CreateProductInput {
   description: string;
   price: number;
   imageUrl?: string;
+  userId?: string;
 }
 
 export interface UpdateProductInput extends CreateProductInput {
