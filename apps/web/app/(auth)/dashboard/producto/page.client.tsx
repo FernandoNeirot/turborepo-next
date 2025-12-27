@@ -1,19 +1,33 @@
 'use client'
-import { Form } from '@fernando_neirot2/ui'
-import React, { useState } from 'react'
+import React from 'react'
+import { ProductForm, useProductMutation } from '../../../features/products'
 
 const DashboardProducto = () => {
-  const [titulo, setTitulo] = useState('')
-  console.log(titulo)
+  const { createProductAsync, isLoading } = useProductMutation({
+    redirectOnSuccess: '/dashboard',
+    // TODO: Implementar notificaciones con toasts
+    onSuccess: () => {
+      console.log('Producto creado exitosamente');
+    },
+    onError: (error) => {
+      console.error('Error al crear producto:', error);
+    },
+  });
+
+  const handleSubmit = async (data: Parameters<typeof createProductAsync>[0]) => {
+    try {
+      await createProductAsync(data);
+    } catch (error) {
+      console.error('Error al crear producto:', error);
+    }
+  };
+
   return (
-    <div className='mt-4'>
-      <Form.Input 
-        label='Nombre del Producto' 
-        placeholder='Ingrese el nombre del producto'
-        onChange={(e)=>setTitulo(e.target.value)}
-        value={titulo}
-      />
-    </div>
+    <ProductForm
+      onSubmit={handleSubmit}
+      isLoading={isLoading}
+      submitLabel="Crear Producto"
+    />
   )
 }
 

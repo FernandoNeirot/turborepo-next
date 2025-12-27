@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, forwardRef } from 'react'
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -16,10 +16,10 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Input = ({ 
+const Input = forwardRef<HTMLInputElement, InputProps>(({ 
   label, 
   error, 
   helperText, 
@@ -36,7 +36,8 @@ const Input = ({
   onKeyDown, 
   onKeyUp,
   variant = 'default',
-}: InputProps) => {
+  ...rest
+}, ref) => {
   const classByAppName = variant === 'search' ? 'focus:ring-transparent' : appName === 'web' ? 'focus:ring-blue-300' : 'focus:ring-purple-300';
   return (
     <div className="flex flex-col gap-1 w-full">
@@ -46,6 +47,7 @@ const Input = ({
         </label>
       )}      
       <input
+        ref={ref}
         disabled={isDisabled}
         className={`
           px-3 py-2 ${variant === 'search' ? '' : 'border '} focus:outline-none focus:ring-2 ${classByAppName}
@@ -67,6 +69,7 @@ const Input = ({
         placeholder={placeholder}
         aria-invalid={!!error}
         aria-label={label}
+        {...rest}
       />
       {error && (
         <span className="text-sm text-red-500">{error}</span>
@@ -76,7 +79,7 @@ const Input = ({
       )}
     </div>
   )
-}
+})
 
 Input.displayName = 'Input'
 
