@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <div className="bg-blue-200 w-full min-h-16 flex items-center justify-center">
       <div className="max-w-[1240px] w-full p-4 flex items-center justify-between">
-        <div>LOGO</div>
+        <Link href="/">LOGO</Link>
         {
           auth.user ? (
             <div className='flex items-center gap-2'>
