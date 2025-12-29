@@ -43,11 +43,11 @@ const DashboardContent = ({ goToAddProduct, userId }: DashboardContentProps) => 
   const handleSecondButton = (productId: string) => {
     console.log('Editar', productId);
   };
-  
+
   const handleThirdButton = (productId: string) => {
     console.log('eliminar:', productId);
   };
-  
+
   return (
     <div className='mt-4'>
       <p className='text-lg flex items-center'>
