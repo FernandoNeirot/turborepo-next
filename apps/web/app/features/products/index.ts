@@ -11,6 +11,7 @@ export type { PrefetchProductsOptions } from './lib/prefetchProducts';
 export type {
   Product,
   ProductCardActions,
+  ProductCardButtonAction,
   CreateProductInput,
   UpdateProductInput,
 } from './types';

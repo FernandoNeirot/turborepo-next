@@ -6,9 +6,18 @@ export interface Product {
   imageUrl: string;
 }
 
+export interface ProductCardButtonAction {
+  onClick: (productId: string) => void;
+  label?: string;
+  icon?: string;
+  backgroundColor?: string;
+  tooltip?: string;
+}
+
 export interface ProductCardActions {
-  onViewDetails?: (productId: string) => void;
-  onAddToCart?: (productId: string) => void;
+  first?: ProductCardButtonAction;
+  second?: ProductCardButtonAction;
+  third?: ProductCardButtonAction;
 }
 
 export interface CreateProductInput {

@@ -52,8 +52,8 @@ const HomeContentWrapper = () => {
         error={error}
         searchQuery={searchQuery}
         actions={{
-          onViewDetails: handleViewDetails,
-          onAddToCart: handleAddToCart,
+          onFirstButton: handleViewDetails,
+          onSecondButton: handleAddToCart,
         }}
       />
     </div>

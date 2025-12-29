@@ -10,6 +10,7 @@ export interface ProductListProps {
   error?: string | null;
   searchQuery?: string;
   actions?: ProductCardActions;
+  flexDirection?: 'row' | 'column';
 }
 
 export function ProductList({
@@ -18,7 +19,9 @@ export function ProductList({
   error = null,
   searchQuery = '',
   actions,
+  flexDirection = 'column',
 }: ProductListProps) {
+  console.log("actions", actions);
   if (isLoading) {
     return (
       <div className="text-center py-12">
@@ -45,5 +48,5 @@ export function ProductList({
     );
   }
 
-  return <ProductGrid products={products} actions={actions} className="mt-4" />;
+  return <ProductGrid products={products} actions={actions} className="mt-4" flexDirection={flexDirection} />;
 }

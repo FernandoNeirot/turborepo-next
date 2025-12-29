@@ -8,18 +8,10 @@ export interface ProductGridProps {
   products: Product[];
   actions?: ProductCardActions;
   className?: string;
+  flexDirection?: 'row' | 'column';
 }
 
-export function ProductGrid({ products, actions, className }: ProductGridProps) {
-  const handleViewDetails = (productId: string) => {
-    actions?.onViewDetails?.(productId);
-    console.log('View details for product:', productId);
-  };
-
-  const handleAddToCart = (productId: string) => {
-    actions?.onAddToCart?.(productId);
-    console.log('Add to cart:', productId);
-  };
+export function ProductGrid({ products, actions, className, flexDirection = 'column' }: ProductGridProps) {
 
   if (products.length === 0) {
     return (
@@ -33,27 +25,44 @@ export function ProductGrid({ products, actions, className }: ProductGridProps) 
     <div
       className={`grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ${className}`}
     >
-      {products.map(product => (
-        <Wrapper.ProductCard
-          key={product.id}
-          onClickButtonFirst={() => handleViewDetails(product.id)}
-          onClickButtonSecond={() => handleAddToCart(product.id)}
-          imageUrl={product.imageUrl || undefined}
-          width="full"
-          height={200}
-          price={product.price}
-          title={product.title}
-          description={product.description}
-          labelButtonFirst="Detalles"
-          iconButtonFirst="view"
-          bgButtonFirst="BLUE"
-          labelButtonSecond="Agregar"
-          iconButtonSecond="cart"
-          bgButtonSecond="GREEN"
-          flexDirection="column"
-          sizeButton="default"
-        />
-      ))}
+      {products.map(product => {
+        const firstAction = actions?.first;
+        const secondAction = actions?.second;
+        const thirdAction = actions?.third;
+        
+        return (
+          <Wrapper.ProductCard
+            key={product.id}
+            onClickButtonFirst={firstAction ? () => firstAction.onClick(product.id) : () => undefined}
+            iconButtonFirst={firstAction?.icon as any}
+            labelButtonFirst={firstAction?.label}
+            tootlipButtonFirst={firstAction?.tooltip}
+            bgButtonFirst={firstAction?.backgroundColor as any}
+            
+            onClickButtonSecond={secondAction ? () => secondAction.onClick(product.id) : () => undefined}
+            labelButtonSecond={secondAction?.label}
+            iconButtonSecond={secondAction?.icon as any}
+            tootlipButtonSecond={secondAction?.tooltip}
+            bgButtonSecond={secondAction?.backgroundColor as any}
+
+            onClickButtonThird={thirdAction ? () => thirdAction.onClick(product.id) : () => undefined}
+            iconButtonThird={thirdAction?.icon as any}
+            tootlipButtonThird={thirdAction?.tooltip}
+            labelButtonThird={thirdAction?.label}
+            bgButtonThird={thirdAction?.backgroundColor as any}
+            
+            
+            imageUrl={product.imageUrl || undefined}
+            width="full"
+            height={200}
+            price={product.price}
+            title={product.title}
+            description={product.description}
+            flexDirection={flexDirection}
+            sizeButton="default"
+          />
+        );
+      })}
     </div>
   );
 }

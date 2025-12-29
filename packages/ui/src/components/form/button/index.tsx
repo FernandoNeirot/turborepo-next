@@ -25,7 +25,7 @@ export const Button = ({
   onClick,
   width
 }: ButtonProps) => {
-  const IconComponent = icon && icon !== 'none' ? iconMap[icon].icon : null;
+  const IconComponent = icon && icon !== 'none' && iconMap[icon] ? iconMap[icon].icon : null;
   return (
     <button
       disabled={isDisabled}

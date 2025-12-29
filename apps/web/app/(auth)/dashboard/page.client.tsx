@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import type { DehydratedState } from '@tanstack/react-query';
 import { Form } from '@fernando_neirot2/ui';
 import { ProductList, ProductsHydrationBoundary, useProducts } from '../../features/products';
+import { SearchBar } from '../../features/search';
 
 interface DashboardClientProps {
   dehydratedState?: DehydratedState;
@@ -35,13 +36,18 @@ const DashboardContent = ({ goToAddProduct, userId }: DashboardContentProps) => 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
   };
-  const handleViewDetails = (productId: string) => {
-    console.log('View details for product:', productId);
+  const handleFirstButton = (productId: string) => {
+    console.log('ver:', productId);
   };
 
-  const handleAddToCart = (productId: string) => {
-    console.log('Add to cart:', productId);
+  const handleSecondButton = (productId: string) => {
+    console.log('Editar', productId);
   };
+  
+  const handleThirdButton = (productId: string) => {
+    console.log('eliminar:', productId);
+  };
+  
   return (
     <div className='mt-4'>
       <p className='text-lg flex items-center'>
@@ -55,14 +61,39 @@ const DashboardContent = ({ goToAddProduct, userId }: DashboardContentProps) => 
           textColor='#4450ffff'
         />
       </p>
+      <SearchBar
+        query={searchQuery}
+        onSearchChange={handleSearchChange}
+        className=""
+      />
       <ProductList
         products={products}
         isLoading={isLoading}
         error={error}
         searchQuery={searchQuery}
+        flexDirection='row'
         actions={{
-          onViewDetails: handleViewDetails,
-          onAddToCart: handleAddToCart,
+          first: {
+            onClick: handleFirstButton,
+            //label: 'Ver',
+            icon: 'view',
+            backgroundColor: 'BLUE',
+            tooltip: 'Ver Producto',
+          },
+          second: {
+            onClick: handleSecondButton,
+            //label: 'Editar',
+            icon: 'edit',
+            backgroundColor: 'GREEN',
+            tooltip: 'Editar producto',
+          },
+          third: {
+            onClick: handleThirdButton,
+            //label: 'Eliminar',
+            icon: 'delete',
+            backgroundColor: 'RED',
+            tooltip: 'Eliminar producto',
+          },
         }}
       />
     </div>
