@@ -2,45 +2,60 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from '../../form/button';
 import { BUTTON_BACKGROUND_COLORS, IconName } from '../../form/button/helpers/constans';
+import Tooltip from '../tooltip';
 
 export interface ProductCardProps {
-  onClickButtonLeft: () => void;
-  labelButtonLeft?: string;
-  iconButtonLeft?: IconName;
-  onClickButtonRight: () => void;
-  labelButtonRight?: string;
-  iconButtonRight?: IconName;
+  onClickButtonFirst: () => void;
+  labelButtonFirst?: string;
+  iconButtonFirst?: IconName;
+  bgButtonFirst?: keyof typeof BUTTON_BACKGROUND_COLORS;
+  tootlipButtonFirst?: string;
+  onClickButtonSecond?: () => void;
+  labelButtonSecond?: string;
+  iconButtonSecond?: IconName;
+  bgButtonSecond?: keyof typeof BUTTON_BACKGROUND_COLORS;
+  tootlipButtonSecond?: string;
+  onClickButtonThird?: () => void;
+  labelButtonThird?: string;
+  iconButtonThird?: IconName;
+  bgButtonThird?: keyof typeof BUTTON_BACKGROUND_COLORS;
+  tootlipButtonThird?: string;
   imageUrl?: string;
   title?: string;
   description?: string;
   width?: number | "full";
   height?: number;
   price?: number;
-  bgButtonLeft?: keyof typeof BUTTON_BACKGROUND_COLORS;
-  bgButtonRight?: keyof typeof BUTTON_BACKGROUND_COLORS;
   sizeButton?: 'small' | 'default';
   flexDirection?: 'row' | 'column';
 }
 
 export const ProductCard = ({
-  onClickButtonLeft,
-  labelButtonLeft = "",
-  iconButtonLeft,
-  onClickButtonRight,
-  labelButtonRight = "",
-  iconButtonRight,
+  onClickButtonFirst,
+  labelButtonFirst = "",
+  iconButtonFirst,
+  bgButtonFirst = 'BLUE',
+  tootlipButtonFirst,
+  onClickButtonSecond,
+  labelButtonSecond = "",
+  iconButtonSecond,
+  bgButtonSecond = 'PURPLE',
+  tootlipButtonSecond,
+  onClickButtonThird,
+  labelButtonThird = "",
+  iconButtonThird,
+  bgButtonThird = 'GREEN',
+  tootlipButtonThird,
   imageUrl = "",
   title = "",
   description = "",
   width = "full",
   price,
-  bgButtonLeft = 'BLUE',
-  bgButtonRight = 'PURPLE',
   sizeButton = 'default',
   flexDirection = 'row',
   height = 250,
 }: ProductCardProps) => {
-  const widthStyle =  { width: typeof width === 'number' ? `${width}px` : "100%" };
+  const widthStyle = { width: typeof width === 'number' ? `${width}px` : "100%" };
   return (
     <div
       className={`border border-gray-300 shadow-xl rounded-lg overflow-hidden`}
@@ -59,7 +74,7 @@ export const ProductCard = ({
             <span className="text-gray-400 text-sm">Sin imagen</span>
           </div>
         )}
-        <div className="absolute cursor-default bottom-0 right-0 bg-blue-900 bg-opacity-50 rounded-tl-lg text-white p-2 text-sm shadow-[-0px_-0px_6px_rgba(255,255,255,0.8)]">
+        <div className="absolute cursor-default bottom-0 right-0 bg-gray-900 rounded-tl-lg text-white p-2 text-sm shadow-[-0px_-0px_6px_rgba(255,255,255,0.8)]">
           $ {price?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </div>
       </div>
@@ -67,20 +82,42 @@ export const ProductCard = ({
         <h2 className="text-lg font-semibold mt-2">{title}</h2>
         <p className="text-sm text-gray-600 h-10 line-clamp-2">{description}</p>
         <div className={`flex w-full justify-between mt-4 ${flexDirection === 'column' ? 'flex-col gap-2' : 'flex-row'}`}>
-          <Button
-            onClick={onClickButtonLeft}
-            label={labelButtonLeft}
-            backgroundColor={bgButtonLeft}
-            icon={iconButtonLeft}
-            size={sizeButton}
-          />
-          <Button
-            onClick={onClickButtonRight}
-            label={labelButtonRight}
-            backgroundColor={bgButtonRight}
-            icon={iconButtonRight}
-            size={sizeButton}
-          />
+          <Tooltip message={tootlipButtonFirst || ""}>
+            <Button
+              onClick={onClickButtonFirst}
+              label={labelButtonFirst}
+              backgroundColor={bgButtonFirst}
+              icon={iconButtonFirst}
+              size={sizeButton}
+              width='100%'
+            />
+          </Tooltip>
+          {
+            onClickButtonSecond &&
+            <Tooltip message={tootlipButtonSecond || ""}>
+              <Button
+                onClick={onClickButtonSecond}
+                label={labelButtonSecond}
+                backgroundColor={bgButtonSecond}
+                icon={iconButtonSecond}
+                size={sizeButton}
+                width='100%'
+              />
+            </Tooltip>
+          }
+          {
+            onClickButtonThird &&
+            <Tooltip message={tootlipButtonThird || ""}>
+              <Button
+                onClick={onClickButtonThird}
+                label={labelButtonThird}
+                backgroundColor={bgButtonThird}
+                icon={iconButtonThird}
+                size={sizeButton}
+                width='100%'
+              />
+            </Tooltip>
+          }
         </div>
       </div>
     </div>

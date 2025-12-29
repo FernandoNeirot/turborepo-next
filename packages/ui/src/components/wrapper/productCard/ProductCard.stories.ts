@@ -6,7 +6,7 @@ import { ProductCard } from '.';
 
 
 const meta = {
-  title: 'Form/ProductCard',
+  title: 'Wrapper/ProductCard',
   component: ProductCard,
   parameters: {
     layout: 'centered',
@@ -22,7 +22,7 @@ const meta = {
   argTypes: {
 
   },
-  args: { onClickButtonLeft: fn(), onClickButtonRight: fn() },
+  args: { onClickButtonFirst: fn(), onClickButtonSecond: fn(), onClickButtonThird: fn() },
 } satisfies Meta<typeof ProductCard>;
 
 export default meta;
@@ -31,17 +31,23 @@ type Story = StoryObj<typeof meta>;
 export const Init: Story = {
   args: {
     imageUrl: "https://www.duchos.com.ar/images/art-410-1.webp",
-    labelButtonLeft: "Ver detalle",
-    iconButtonLeft: "view",
-    bgButtonLeft: "BLUE",
-    labelButtonRight: "Agregar",
-    iconButtonRight: "cart",
-    bgButtonRight: "GREEN",
+    labelButtonFirst: "",
+    iconButtonFirst: "view",
+    bgButtonFirst: "BLUE",
+    tootlipButtonFirst: "Ver producto",
+    labelButtonSecond: "",
+    iconButtonSecond: "edit",
+    bgButtonSecond: "GREEN",
+    tootlipButtonSecond: "Editar producto",
+    labelButtonThird: "",
+    iconButtonThird: "delete",
+    bgButtonThird: "PURPLE",
+    tootlipButtonThird: "Eliminar producto",
     title: "Producto de ejemplo",
     width: 350,
     price: 2500,
     description: "Esta es una descripción de ejemplo para el producto. Esta es una descripción de ejemplo para el producto.",
-    flexDirection: "column",
+    flexDirection: "row",
     sizeButton: "default",
   },
 };

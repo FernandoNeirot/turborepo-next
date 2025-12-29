@@ -1,8 +1,10 @@
-import { Search, Home, User, Settings, Trash, Eye, ShoppingCart, Plus, LogIn, LogOut   } from "lucide-react";
+import { Search, Home, User, Settings, Trash, Eye, ShoppingCart, Plus, LogIn, LogOut, Heart, SquarePen   } from "lucide-react";
 
 export const iconMap = {
   cart: { icon: ShoppingCart, name: "Cart" },
   delete: { icon: Trash, name: "Delete" },
+  edit: { icon: SquarePen , name: "Edit" },
+  heart : { icon: Heart , name: "Heart" },
   home: { icon: Home, name: "Home" },
   logout: { icon: LogOut, name: "Logout" },
   login: { icon: LogIn, name: "Login" },
@@ -23,5 +25,5 @@ export const BUTTON_BACKGROUND_COLORS = {
   GRAY: "bg-gray-400 cursor-not-allowed hover:bg-gray-400",
   PURPLE: "bg-purple-600 hover:bg-purple-700",
   RED: "bg-red-500 hover:bg-red-600",
-  TRANSPARENT: "bg-transparent hover:bg-gray-100",
+  TRANSPARENT: "bg-transparent hover:bg-gray-900",
 } as const;

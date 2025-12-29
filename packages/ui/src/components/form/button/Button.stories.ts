@@ -21,6 +21,9 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     icon: { control: 'select', options: [...iconNames] },
+    textColor: { control: 'color' },
+    backgroundColor: { control: 'select' },
+    size: { control: 'select', options: ['small', 'default'] },
     variant: { control: 'select', options: ['default', 'delete'] },
   },
   args: { onClick: fn() },
@@ -33,6 +36,7 @@ export const label: Story = {
   args: {
     label: 'Guardar',
     isDisabled: false,
+    
   },
 };
 export const disabled: Story = {

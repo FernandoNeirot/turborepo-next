@@ -5,7 +5,7 @@ import { fn } from 'storybook/test';
 import Tooltip, { type TooltipProps } from '.';
 
 const meta: Meta<TooltipProps> = {
-  title: 'Helper/Tooltip',
+  title: 'Wrapper/Tooltip',
   component: Tooltip,
   parameters: {  
     layout: 'centered',

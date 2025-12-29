@@ -36,20 +36,20 @@ export function ProductGrid({ products, actions, className }: ProductGridProps) 
       {products.map(product => (
         <Wrapper.ProductCard
           key={product.id}
-          onClickButtonLeft={() => handleViewDetails(product.id)}
-          onClickButtonRight={() => handleAddToCart(product.id)}
+          onClickButtonFirst={() => handleViewDetails(product.id)}
+          onClickButtonSecond={() => handleAddToCart(product.id)}
           imageUrl={product.imageUrl || undefined}
           width="full"
           height={200}
           price={product.price}
           title={product.title}
           description={product.description}
-          labelButtonLeft="Detalles"
-          iconButtonLeft="view"
-          bgButtonLeft="BLUE"
-          labelButtonRight="Agregar"
-          iconButtonRight="cart"
-          bgButtonRight="GREEN"
+          labelButtonFirst="Detalles"
+          iconButtonFirst="view"
+          bgButtonFirst="BLUE"
+          labelButtonSecond="Agregar"
+          iconButtonSecond="cart"
+          bgButtonSecond="GREEN"
           flexDirection="column"
           sizeButton="default"
         />
