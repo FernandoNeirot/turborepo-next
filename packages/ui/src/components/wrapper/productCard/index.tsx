@@ -81,7 +81,7 @@ export const ProductCard = ({
       <div className='px-4 pb-4 pt-1 bg-gray-100'>
         <h2 className="text-lg font-semibold mt-2">{title}</h2>
         <p className="text-sm text-gray-600 h-10 line-clamp-2">{description}</p>
-        <div className={`flex w-full justify-between mt-4 ${flexDirection === 'column' ? 'flex-col gap-2' : 'flex-row'}`}>
+        <div className={`flex w-full justify-between mt-4 ${flexDirection === 'column' ? 'flex-col ' : 'flex-row'} gap-4`}>
           <Tooltip message={tootlipButtonFirst || ""}>
             <Button
               onClick={onClickButtonFirst}

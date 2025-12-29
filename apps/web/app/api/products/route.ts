@@ -5,14 +5,16 @@ import { db } from '../../shared/configs/firebase';
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('[API Route] /api/products - GET request recibida');
-    console.log('[API Route] URL:', request.url);
-    
-    const products: Product[] = [];
-    const q = query(collection(db, "products"));
+    const userId = request.nextUrl.searchParams.get('userId');
+    let q;
+    if (userId) {
+      q = query(collection(db, "products"), where("userId", "==", userId));
+    } else {
+      q = query(collection(db, "products"));
+    }
 
-    console.log('[API Route] Consultando Firebase...');
     const querySnapshot = await getDocs(q);
+    const products: Product[] = [];
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
@@ -20,12 +22,8 @@ export async function GET(request: NextRequest) {
       products.push(data as Product);
     });
 
-    console.log('[API Route] Productos obtenidos:', products.length);
-    console.log('[API Route] Productos:', products);
-
     return NextResponse.json({ data: products, error: null }, { status: 200 });
   } catch (error) {
-    console.error('[API Route] Error fetching products:', error);
     return NextResponse.json(
       { data: null, error: 'Error fetching products' },
       { status: 500 }

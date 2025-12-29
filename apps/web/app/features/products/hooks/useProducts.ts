@@ -7,6 +7,7 @@ import type { Product } from '../types';
 
 export interface UseProductsProps {
   searchQuery?: string;
+  userId?: string;
   initialData?: Product[];
 }
 
@@ -19,11 +20,12 @@ export interface UseProductsReturn {
 
 export function useProducts({ 
   searchQuery = '',
+  userId,
   initialData,
 }: UseProductsProps = {}): UseProductsReturn {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => getProducts(),
+    queryKey: userId ? ['products', userId] : ['products'],
+    queryFn: () => getProducts(userId),
     staleTime: 3600 * 1000, // Los datos son válidos por 1 hora
     initialData: initialData,
     refetchOnMount: !initialData,

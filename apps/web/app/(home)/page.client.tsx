@@ -1,24 +1,20 @@
 'use client'
 
 import React, { useState } from 'react';
-import { HydrationBoundary, type DehydratedState } from '@tanstack/react-query';
+import type { DehydratedState } from '@tanstack/react-query';
 import { SearchBar } from '../features/search';
-import { ProductList, useProducts } from '../features/products';
+import { ProductList, useProducts, ProductsHydrationBoundary } from '../features/products';
 
 interface HomeClientProps {
   dehydratedState?: DehydratedState;
 }
 
 const HomeClient = ({ dehydratedState }: HomeClientProps) => {
-  if (dehydratedState) {
-    return (
-      <HydrationBoundary state={dehydratedState}>
-        <HomeContentWrapper />
-      </HydrationBoundary>
-    );
-  }
-
-  return <HomeContentWrapper />;
+  return (
+    <ProductsHydrationBoundary dehydratedState={dehydratedState}>
+      <HomeContentWrapper />
+    </ProductsHydrationBoundary>
+  );
 };
 
 const HomeContentWrapper = () => {
