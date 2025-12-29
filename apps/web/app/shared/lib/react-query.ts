@@ -40,6 +40,8 @@ export async function prefetchQuery<T>(
     queryKey,
     queryFn,
     staleTime: 3600 * 1000,
+    retry: 1,
+    retryDelay: 1000,
   });
 }
 

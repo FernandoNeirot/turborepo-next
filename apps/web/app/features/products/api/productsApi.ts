@@ -1,11 +1,6 @@
-/**
- * Servicio de API para productos
- * Esta capa abstrae las llamadas HTTP
- */
 
 import type { Product, CreateProductInput, UpdateProductInput } from '../types';
 
-// Función helper para obtener la URL base en el servidor
 function getBaseUrl(): string {
   // En el servidor, usar variable de entorno o construir la URL
   if (typeof window === 'undefined') {
@@ -23,12 +18,11 @@ function getBaseUrl(): string {
   return '';
 }
 
-export async function getProducts(): Promise<Product[]> {
+export async function getProducts(userId?: string): Promise<Product[]> {
   const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/api/product`;
-  
-  console.log('[getProducts] Llamando a:', url);
-  console.log('[getProducts] Es servidor:', typeof window === 'undefined');
+  const url = userId 
+    ? `${baseUrl}/api/products?userId=${encodeURIComponent(userId)}`
+    : `${baseUrl}/api/products`;
   
   const response = await fetch(url, {
     next: { revalidate: 3600 },
@@ -37,16 +31,12 @@ export async function getProducts(): Promise<Product[]> {
     },
   });
   
-  console.log('[getProducts] Response status:', response.status, response.statusText);
-  
   if (!response.ok) {
     const errorText = await response.text().catch(() => response.statusText);
-    console.error('[getProducts] Error en response:', errorText);
     throw new Error(`Error al obtener productos: ${response.status} - ${errorText}`);
   }
   
   const result = await response.json();
-  console.log('[getProducts] Response data:', result);
   
   if (result.error) {
     throw new Error(result.error);
@@ -57,7 +47,7 @@ export async function getProducts(): Promise<Product[]> {
 
 export async function createProduct(input: CreateProductInput): Promise<Product> {
   const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/api/product`;
+  const url = `${baseUrl}/api/products`;
   
   const response = await fetch(url, {
     method: 'POST',
@@ -83,7 +73,7 @@ export async function createProduct(input: CreateProductInput): Promise<Product>
 
 export async function updateProduct(input: UpdateProductInput): Promise<Product> {
   const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/api/product/${input.id}`;
+  const url = `${baseUrl}/api/products/${input.id}`;
   
   const response = await fetch(url, {
     method: 'PUT',

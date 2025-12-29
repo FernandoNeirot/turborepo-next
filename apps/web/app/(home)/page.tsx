@@ -8,15 +8,18 @@ export default async function Home(): Promise<React.ReactElement> {
   const queryClient = getQueryClient();
 
   try {
-    await prefetchQuery(
+    const prefetchPromise = prefetchQuery(
       queryClient,
       ['products'],
-      () => {
-        return getProducts();
-      }
+      () => getProducts()
     );
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Prefetch timeout')), 2000)
+    );
+
+    await Promise.race([prefetchPromise, timeoutPromise]);
   } catch (error) {
-    console.error('[Server] Error en pre-fetch:', error);
+    console.error('Error during prefetching products:', error);
   }
 
   const dehydratedState = dehydrate(queryClient);

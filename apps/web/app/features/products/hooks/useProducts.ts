@@ -23,7 +23,7 @@ export function useProducts({
 }: UseProductsProps = {}): UseProductsReturn {
   const { data, isLoading, error } = useQuery({
     queryKey: ['products'],
-    queryFn: getProducts,
+    queryFn: () => getProducts(),
     staleTime: 3600 * 1000, // Los datos son válidos por 1 hora
     initialData: initialData,
     refetchOnMount: !initialData,
