@@ -21,7 +21,7 @@ export function ProductList({
   actions,
   flexDirection = 'column',
 }: ProductListProps) {
-  console.log("actions", actions);
+
   if (isLoading) {
     return (
       <div className="text-center py-12">

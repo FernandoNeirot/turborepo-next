@@ -7,7 +7,7 @@ export interface Product {
 }
 
 export interface ProductCardButtonAction {
-  onClick: (productId: string) => void;
+  onClick?: (productId: string) => void;
   label?: string;
   icon?: string;
   backgroundColor?: string;

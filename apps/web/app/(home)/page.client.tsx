@@ -52,8 +52,20 @@ const HomeContentWrapper = () => {
         error={error}
         searchQuery={searchQuery}
         actions={{
-          onFirstButton: handleViewDetails,
-          onSecondButton: handleAddToCart,
+          first: {
+            onClick: handleViewDetails,
+            label: 'Ver detalles',
+            icon: 'info',
+            backgroundColor: 'BLUE',
+            tooltip: 'Ver detalles del producto',
+          },
+          second: {
+            onClick: handleAddToCart,
+            label: 'Agregar al carrito',
+            icon: 'cart',
+            backgroundColor: 'GREEN',
+            tooltip: 'Agregar este producto al carrito',
+          },
         }}
       />
     </div>

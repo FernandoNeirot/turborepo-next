@@ -5,7 +5,7 @@ import { BUTTON_BACKGROUND_COLORS, IconName } from '../../form/button/helpers/co
 import Tooltip from '../tooltip';
 
 export interface ProductCardProps {
-  onClickButtonFirst: () => void;
+  onClickButtonFirst?: () => void;
   labelButtonFirst?: string;
   iconButtonFirst?: IconName;
   bgButtonFirst?: keyof typeof BUTTON_BACKGROUND_COLORS;
@@ -82,16 +82,19 @@ export const ProductCard = ({
         <h2 className="text-lg font-semibold mt-2">{title}</h2>
         <p className="text-sm text-gray-600 h-10 line-clamp-2">{description}</p>
         <div className={`flex w-full justify-between mt-4 ${flexDirection === 'column' ? 'flex-col ' : 'flex-row'} gap-4`}>
-          <Tooltip message={tootlipButtonFirst || ""}>
-            <Button
-              onClick={onClickButtonFirst}
-              label={labelButtonFirst}
-              backgroundColor={bgButtonFirst}
-              icon={iconButtonFirst}
-              size={sizeButton}
-              width='100%'
-            />
-          </Tooltip>
+          {onClickButtonFirst && (
+            <Tooltip message={tootlipButtonFirst || ""}>
+
+              <Button
+                onClick={onClickButtonFirst}
+                label={labelButtonFirst}
+                backgroundColor={bgButtonFirst}
+                icon={iconButtonFirst}
+                size={sizeButton}
+                width='100%'
+              />
+            </Tooltip>)
+          }
           {
             onClickButtonSecond &&
             <Tooltip message={tootlipButtonSecond || ""}>

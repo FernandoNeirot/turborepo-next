@@ -29,29 +29,28 @@ export function ProductGrid({ products, actions, className, flexDirection = 'col
         const firstAction = actions?.first;
         const secondAction = actions?.second;
         const thirdAction = actions?.third;
-        
         return (
           <Wrapper.ProductCard
             key={product.id}
-            onClickButtonFirst={firstAction ? () => firstAction.onClick(product.id) : () => undefined}
+            onClickButtonFirst={firstAction && typeof firstAction.onClick === 'function' ? () => firstAction.onClick!(product.id) : undefined}
             iconButtonFirst={firstAction?.icon as any}
             labelButtonFirst={firstAction?.label}
             tootlipButtonFirst={firstAction?.tooltip}
             bgButtonFirst={firstAction?.backgroundColor as any}
-            
-            onClickButtonSecond={secondAction ? () => secondAction.onClick(product.id) : () => undefined}
+
+            onClickButtonSecond={secondAction && typeof secondAction.onClick === 'function' ? () => secondAction.onClick!(product.id) : undefined}
             labelButtonSecond={secondAction?.label}
             iconButtonSecond={secondAction?.icon as any}
             tootlipButtonSecond={secondAction?.tooltip}
             bgButtonSecond={secondAction?.backgroundColor as any}
 
-            onClickButtonThird={thirdAction ? () => thirdAction.onClick(product.id) : () => undefined}
+            onClickButtonThird={thirdAction && typeof thirdAction.onClick === 'function' ? () => thirdAction.onClick!(product.id) : undefined}
             iconButtonThird={thirdAction?.icon as any}
             tootlipButtonThird={thirdAction?.tooltip}
             labelButtonThird={thirdAction?.label}
             bgButtonThird={thirdAction?.backgroundColor as any}
-            
-            
+
+
             imageUrl={product.imageUrl || undefined}
             width="full"
             height={200}
