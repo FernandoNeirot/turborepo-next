@@ -65,7 +65,7 @@ const DashboardContent = ({ goToAddProduct, userId }: DashboardContentProps) => 
         </span>
         <Form.Button
           onClick={goToAddProduct}
-          label='Agregar nuevo producto'
+          label='Nuevo producto'
           textColor='#fff'
           backgroundColor='BLUE'
         />
