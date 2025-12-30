@@ -15,7 +15,7 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div className='max-w-[1240px] mx-auto pt-10 px-4'>
+    <div>
       <h1 className='text-3xl font-bold'>Dashboard</h1>
       <p className='mt-2'>Bienvenido a tu panel de control</p>
       <DashboardClient dehydratedState={dehydratedState} userId={userId ?? ""} />

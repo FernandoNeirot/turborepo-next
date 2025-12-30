@@ -50,7 +50,6 @@ export function ProductGrid({ products, actions, className, flexDirection = 'col
             labelButtonThird={thirdAction?.label}
             bgButtonThird={thirdAction?.backgroundColor as any}
 
-
             imageUrl={product.imageUrl || undefined}
             width="full"
             height={200}

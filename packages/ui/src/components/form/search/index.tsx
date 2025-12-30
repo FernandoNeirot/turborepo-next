@@ -25,7 +25,7 @@ export const Search = ({
 }: SearchProps) => {  
   return (
     <div className={`flex border rounded-xl border-gray-300 overflow-hidden ${className}`}>
-      <Input placeholder="Search..." isDisabled={isDisabled} onChange={onChange} variant={variant} />
+      <Input placeholder="Buscar..." isDisabled={isDisabled} onChange={onChange} variant={variant} />
       <Button onClick={onClick} variant="search" icon='search' isDisabled={isDisabled} backgroundColor={bgColor} />
     </div>
   );

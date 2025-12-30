@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
 import type { DehydratedState } from '@tanstack/react-query';
 import { Form } from '@fernando_neirot2/ui';
-import { ProductList, ProductsHydrationBoundary, useProducts } from '../../features/products';
+import { ProductList, ProductsHydrationBoundary, useProductMutation, useProducts } from '../../features/products';
 import { SearchBar } from '../../features/search';
 
 interface DashboardClientProps {
@@ -33,6 +33,14 @@ interface DashboardContentProps {
 const DashboardContent = ({ goToAddProduct, userId }: DashboardContentProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const { products, isLoading, error } = useProducts({ userId, searchQuery });
+  const { deleteProduct, isDeleting, deleteError } = useProductMutation({
+    onSuccess: () => {
+      console.log('Producto eliminado exitosamente');
+    },
+    onError: (error: Error) => {
+      console.error('Error al eliminar producto:', error);
+    },
+  });
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
   };
@@ -45,12 +53,12 @@ const DashboardContent = ({ goToAddProduct, userId }: DashboardContentProps) => 
   };
 
   const handleThirdButton = (productId: string) => {
-    console.log('eliminar:', productId);
+    deleteProduct(productId);
   };
 
   return (
     <div className='mt-4'>
-      <p className='text-lg flex items-center'>
+      <p className='text-lg flex items-center mb-4'>
         Total de productos agregados: {" "}
         <span className='ml-2 mr-6 font-semibold'>
           {isLoading ? '...' : products.length}
@@ -58,13 +66,15 @@ const DashboardContent = ({ goToAddProduct, userId }: DashboardContentProps) => 
         <Form.Button
           onClick={goToAddProduct}
           label='Agregar nuevo producto'
-          textColor='#4450ffff'
+          textColor='#fff'
+          backgroundColor='BLUE'
         />
       </p>
       <SearchBar
         query={searchQuery}
         onSearchChange={handleSearchChange}
         className=""
+        isDisabled={true}
       />
       <ProductList
         products={products}
@@ -78,21 +88,21 @@ const DashboardContent = ({ goToAddProduct, userId }: DashboardContentProps) => 
             //label: 'Ver',
             icon: 'view',
             backgroundColor: 'BLUE',
-            tooltip: 'Ver Producto',
+            tooltip: 'Ver',
           },
           second: {
             onClick: handleSecondButton,
             //label: 'Editar',
             icon: 'edit',
             backgroundColor: 'GREEN',
-            tooltip: 'Editar producto',
+            tooltip: 'Editar',
           },
           third: {
             onClick: handleThirdButton,
             //label: 'Eliminar',
             icon: 'delete',
             backgroundColor: 'RED',
-            tooltip: 'Eliminar producto',
+            tooltip: 'Eliminar',
           },
         }}
       />

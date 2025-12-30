@@ -47,7 +47,52 @@ export async function getProducts(userId?: string): Promise<Product[]> {
 
 export async function createProduct(input: CreateProductInput): Promise<Product> {
   const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/api/products`;
+  const url = `${baseUrl}/api/product`;
+  
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+  });
+  
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => response.statusText);
+    throw new Error(`Error al crear producto: ${response.status} - ${errorText}`);
+  }
+  
+  const result = await response.json();
+  
+  if (result.error) {
+    throw new Error(result.error);
+  }
+  
+  return result.data;
+}
+
+export async function deleteProduct(id: string): Promise<void> {
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/api/product/${id}`;
+  const response = await fetch(url, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => response.statusText);
+    throw new Error(`Error al eliminar producto: ${response.status} - ${errorText}`);
+  }
+  const result = await response.json();
+  
+  if (result.error) {
+    throw new Error(result.error);
+  }
+  
+  return result.data;
+}
+
+export async function uploadImageInFirebase(input: File): Promise<File> {
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/api/product/images`;
   
   const response = await fetch(url, {
     method: 'POST',
@@ -73,7 +118,7 @@ export async function createProduct(input: CreateProductInput): Promise<Product>
 
 export async function updateProduct(input: UpdateProductInput): Promise<Product> {
   const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/api/products/${input.id}`;
+  const url = `${baseUrl}/api/product/${input.id}`;
   
   const response = await fetch(url, {
     method: 'PUT',

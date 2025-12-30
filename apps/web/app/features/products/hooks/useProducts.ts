@@ -26,9 +26,9 @@ export function useProducts({
   const { data, isLoading, error } = useQuery({
     queryKey: userId ? ['products', userId] : ['products'],
     queryFn: () => getProducts(userId),
-    staleTime: 3600 * 1000, // Los datos son válidos por 1 hora
+    staleTime: 0, // Siempre considerar los datos como stale para permitir refetch
     initialData: initialData,
-    refetchOnMount: !initialData,
+    refetchOnMount: true, // Siempre refetch al montar para asegurar datos actualizados
   });
 
   const filteredProducts = useMemo(() => {

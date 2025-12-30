@@ -15,10 +15,12 @@
     "@fernando_neirot2/ui": "workspace:*",
     "@tanstack/react-query": "^5.90.12",
     "firebase": "^12.7.0",
+    "firebase-admin": "^13.6.0",
     "next": "16.0.10",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.69.0",
+    "sharp": "^0.34.5",
     "zod": "^4.2.1",
     "zustand": "^5.0.9"
   },

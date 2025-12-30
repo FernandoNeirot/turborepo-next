@@ -34,17 +34,16 @@ const HomeContentWrapper = () => {
 
   return (
     <div
-      className="p-4"
+      className="p-4 mx-auto"
       style={{
         maxWidth: '1240px',
-        margin: '0 auto',
-        backgroundColor: '#f3f4f6',
       }}
     >
       <SearchBar
         query={searchQuery}
         onSearchChange={handleSearchChange}
         className=""
+        isDisabled={true}
       />
       <ProductList
         products={filteredProducts}
