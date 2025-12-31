@@ -9,29 +9,29 @@ export async function DELETE(
 ): Promise<NextResponse> {
   try {
     const { id } = await params;
-    
+
     const productRef = doc(db, 'products', id);
     const productSnap = await getDoc(productRef);
-    
+
     if (!productSnap.exists()) {
       return NextResponse.json(
         { data: null, error: 'Producto no encontrado' },
         { status: 404 }
       );
     }
-    
-    const productData = productSnap.data();
-    
+
+     const productData = productSnap.data();
+
     if (productData.imageUrl) {
       try {
         const imageUrl = productData.imageUrl as string;
         const imagePath = extractImagePathFromUrl(imageUrl);
-        
+
         if (imagePath) {
           const adminStorage = getAdminStorage();
           const bucket = adminStorage.bucket();
           const fileRef = bucket.file(imagePath);
-          
+
           const [exists] = await fileRef.exists();
           if (exists) {
             await fileRef.delete();
@@ -41,11 +41,11 @@ export async function DELETE(
         console.error('[API Route] Error al eliminar imagen de Storage:', storageError);
       }
     }
-    
+
     // Eliminar el producto de Firestore
     const { deleteDoc } = await import('firebase/firestore');
     await deleteDoc(productRef);
-    
+
     return NextResponse.json(
       { data: { id }, error: null },
       { status: 200 }
@@ -76,7 +76,7 @@ function extractImagePathFromUrl(url: string): string | null {
         return decodeURIComponent(pathMatch[1]);
       }
     }
-    
+
     // Formato: https://firebasestorage.googleapis.com/v0/b/{bucket}/o/{encodedPath}?alt=media&token=...
     if (url.includes('firebasestorage.googleapis.com')) {
       const pathMatch = url.match(/\/o\/(.+?)(\?|$)/);
@@ -85,7 +85,7 @@ function extractImagePathFromUrl(url: string): string | null {
         return decodeURIComponent(pathMatch[1].replace(/%2F/g, '/'));
       }
     }
-    
+
     return null;
   } catch (error) {
     console.error('[extractImagePathFromUrl] Error al parsear URL:', error);
@@ -104,29 +104,29 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    
+
     // Verificar que el producto existe
     const productRef = doc(db, 'products', id);
     const productSnap = await getDoc(productRef);
-    
+
     if (!productSnap.exists()) {
       return NextResponse.json(
         { data: null, error: 'Producto no encontrado' },
         { status: 404 }
       );
     }
-    
+
     // Actualizar el producto
     const { updateDoc } = await import('firebase/firestore');
     await updateDoc(productRef, {
       ...body,
       updatedAt: new Date(),
     });
-    
+
     // Obtener el producto actualizado
     const updatedSnap = await getDoc(productRef);
     const updatedData = { id: updatedSnap.id, ...updatedSnap.data() };
-    
+
     return NextResponse.json(
       { data: updatedData, error: null },
       { status: 200 }
