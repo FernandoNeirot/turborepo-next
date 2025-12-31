@@ -31,8 +31,9 @@ export const Button = ({
       disabled={isDisabled}
       type="button"
       className={`
+        whitespace-nowrap
       ${size === 'small' ? 'px-3 text-sm' : 'px-4 py-2 text-base'}
-      ${backgroundColor !== "TRANSPARENT" ? "shadow-md" : ""} px-2 rounded${variant === 'search' ? '-r-xl' : '-lg'} font-semibold transition-colors flex items-center justify-center
+      ${!backgroundColor.includes("TRANSPARENT") ? "shadow-md" : ""} px-2 rounded${variant === 'search' ? '-r-xl' : '-lg'} font-semibold transition-colors flex items-center justify-center
       ${isDisabled ?
           "bg-gray-200 cursor-not-allowed text-gray-300" :
           `${BUTTON_BACKGROUND_COLORS[backgroundColor]} cursor-pointer text-white`

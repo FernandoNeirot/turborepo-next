@@ -1,66 +1,27 @@
 'use client'
 import React from 'react'
 import { useAuth } from '../../shared/providers/AuthContext'
-import { Form } from '@fernando_neirot2/ui'
-import Link from 'next/link'
-import Image from 'next/image'
+import { Wrapper } from '@fernando_neirot2/ui'
+const { useRouter } = require('next/navigation')
 
 const Header = () => {
   const auth = useAuth()
-
+  const router = useRouter()
   return (
-    <div className="bg-gray-900 w-full text-white min-h-16 flex items-center justify-center">
-      <div className="max-w-[1240px] w-full p-4 flex items-center justify-between">
-        <Link href="/">
-          <div className="flex items-center">
-            <Image
-              src="/logo.webp"
-              alt="Logo"
-              width={50}
-              height={50}
-              className="object-contain"
-            />
-            <div className="flex flex-col">
-              <div className="text-2xl font-bold text-white inline-block ml-2">
-                NEGOCIA
-              </div>
-              <div className="text-sm font-bold text-white inline-block ml-2">
-                Compra-venta Inteligente
-              </div>
-            </div>
-          </div>
-        </Link>
-        {
-          auth.user ? (
-            <div className='flex items-center gap-2'>
-              <Link
-                href="/dashboard"
-                className="text-gray-300 hover:text-blue-50 transition-colors font-medium"
-              >
-                Hola, <span className="font-semibold text-gray-50">{auth.user.displayName}</span>
-              </Link>
-              <Form.Button
-                onClick={auth.logout}
-                label=''
-                backgroundColor='TRANSPARENT'
-                textColor='#fff'
-                icon="logout"
-              />
-            </div>
-          ) : (
-            <div className='flex items-center gap-4'>
-              Iniciar sesión
-              <Form.Button
-                onClick={auth.loginWithGoogle}
-                label=''
-                backgroundColor='TRANSPARENT'
-                textColor='#000'
-                icon="login"
-              />
-            </div>
-          )
-        }
-
+    <div className='w-full'>
+      <div style={{height: '60px'}} />
+      <div className='fixed w-full top-0 left-0 z-50'>
+        <Wrapper.Header
+          title="NEGOCIA"
+          subTitle="Compra-venta Inteligente"
+          logoUrl="/logo.webp"
+          welcomeLabel={auth.user ? `Hola, ${auth.user.displayName}` : 'Iniciar sesión'}
+          onWelcomeClick={auth.user ? () => router.push('/dashboard') : auth.loginWithGoogle}
+          onClickLogin={auth.user ? auth.logout : auth.loginWithGoogle}
+          isAuthenticated={!!auth.user}
+          onClickLogo={() => router.push('/')}
+          maxWidth="1240px"
+        />
       </div>
     </div>
   )

@@ -25,5 +25,6 @@ export const BUTTON_BACKGROUND_COLORS = {
   GRAY: "bg-gray-400 cursor-not-allowed hover:bg-gray-400",
   PURPLE: "bg-purple-600 hover:bg-purple-700",
   RED: "bg-red-500 hover:bg-red-600",
-  TRANSPARENT: "bg-transparent hover:bg-gray-900",
+  TRANSPARENT: "bg-transparent",
+  TRANSPARENT_02: "bg-transparent hover:bg-gray-100",
 } as const;
