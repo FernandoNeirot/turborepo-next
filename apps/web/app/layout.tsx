@@ -7,7 +7,7 @@ import Header from "./features/header";
 import { GlobalLoader } from "./shared/components/GlobalLoader";
 
 export const metadata: Metadata = {
-  title: "Bazar de oportunidades",
+  title: "Mercado del Emprendedor",
   description:
     "Encuentra las mejores ofertas y oportunidades en nuestro bazar en línea.",
 };
