@@ -16,7 +16,7 @@ export interface ButtonProps {
 
 export const Button = ({
   icon,
-  backgroundColor = "TRANSPARENT",
+  backgroundColor = "BLUE",
   textColor = '#fff',
   size = 'default',
   isDisabled = false,

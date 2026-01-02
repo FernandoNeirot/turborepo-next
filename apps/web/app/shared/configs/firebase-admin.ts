@@ -5,7 +5,7 @@ import { getStorage, type Storage } from 'firebase-admin/storage';
 let adminApp: App;
 let adminStorage: Storage;
 
-function initializeAdminApp(): App {
+export function initializeAdminApp(): App {
   if (getApps().length > 0) {
     return getApps()[0]!;
   }
