@@ -1,10 +1,12 @@
 // Importar estilos
-import './index.css';
+import "./index.css";
 
 // Exportar componentes
-export { Form } from './components/form';
-export type { FormType } from './components/form';
+export { Form } from "./components/form";
+export type { FormType } from "./components/form";
 
-export { Wrapper } from './components/wrapper';
-export type { WrapperType, ProductCardProps } from './components/wrapper';
+export { Wrapper } from "./components/wrapper";
+export type { WrapperType, ProductCardProps } from "./components/wrapper";
 
+export { Loader } from "./components/loader";
+export type { LoaderProps } from "./components/loader";

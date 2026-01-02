@@ -3,6 +3,7 @@
 import React from "react";
 import { Wrapper } from "@fernando_neirot2/ui";
 import type { Product, ProductCardActions } from "../types";
+import { ClientPageRoot } from "next/dist/client/components/client-page";
 
 export interface ProductGridProps {
   products: Product[];
@@ -33,12 +34,19 @@ export function ProductGrid({
         const firstAction = actions?.first;
         const secondAction = actions?.second;
         const thirdAction = actions?.third;
+
+        const primaryIdentifier = product.slug || product.id;
+        const secondaryIdentifier =
+          secondAction?.label === "Contactar al vendedor"
+            ? `https://wa.me/${product.phone}?text=Hola,%20estoy%20interesado%20en%20el%20producto%20${product.title}`
+            : product.id;
+
         return (
           <Wrapper.ProductCard
             key={product.id}
             onClickButtonFirst={
               firstAction && typeof firstAction.onClick === "function"
-                ? () => firstAction.onClick!(product.id)
+                ? () => firstAction.onClick!(primaryIdentifier)
                 : undefined
             }
             iconButtonFirst={firstAction?.icon as any}
@@ -47,7 +55,7 @@ export function ProductGrid({
             bgButtonFirst={firstAction?.backgroundColor as any}
             onClickButtonSecond={
               secondAction && typeof secondAction.onClick === "function"
-                ? () => secondAction.onClick!(product.id)
+                ? () => secondAction.onClick!(secondaryIdentifier)
                 : undefined
             }
             labelButtonSecond={secondAction?.label}

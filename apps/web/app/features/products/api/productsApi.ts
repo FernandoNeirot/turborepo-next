@@ -151,6 +151,32 @@ export async function getProduct(id: string): Promise<Product> {
   return result.data;
 }
 
+export async function getProductBySlug(slug: string): Promise<Product> {
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/api/product/slug/${encodeURIComponent(slug)}`;
+
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => response.statusText);
+    throw new Error(
+      `Error al obtener producto: ${response.status} - ${errorText}`
+    );
+  }
+
+  const result = await response.json();
+
+  if (result.error) {
+    throw new Error(result.error);
+  }
+
+  return result.data;
+}
+
 export async function updateProduct(
   input: UpdateProductInput
 ): Promise<Product> {
@@ -166,6 +192,7 @@ export async function updateProduct(
       title: input.title,
       description: input.description,
       descriptionClean: input.descriptionClean,
+      phone: input.phone,
       price: input.price,
       imageUrl: input.imageUrl,
     }),
@@ -175,6 +202,46 @@ export async function updateProduct(
     const errorText = await response.text().catch(() => response.statusText);
     throw new Error(
       `Error al actualizar producto: ${response.status} - ${errorText}`
+    );
+  }
+
+  const result = await response.json();
+
+  if (result.error) {
+    throw new Error(result.error);
+  }
+
+  return result.data;
+}
+
+export interface UpdatePhoneNumberInput {
+  userId: string;
+  phone: string;
+}
+
+export interface UpdatePhoneNumberResponse {
+  updated: number;
+  message: string;
+}
+
+export async function updatePhoneNumber(
+  input: UpdatePhoneNumberInput
+): Promise<UpdatePhoneNumberResponse> {
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/api/product/phone`;
+
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(input),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => response.statusText);
+    throw new Error(
+      `Error al actualizar número de teléfono: ${response.status} - ${errorText}`
     );
   }
 

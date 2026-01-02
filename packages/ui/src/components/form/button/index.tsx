@@ -17,6 +17,7 @@ export interface ButtonProps {
   labelTooltip?: string;
   width?: string;
   type?: "button" | "submit" | "reset";
+  height?: string;
 }
 
 export const Button = ({
@@ -30,6 +31,7 @@ export const Button = ({
   onClick,
   width,
   type = "button",
+  height,
 }: ButtonProps) => {
   const IconComponent =
     icon && icon !== "none" && iconMap[icon] ? iconMap[icon].icon : null;
@@ -48,7 +50,11 @@ export const Button = ({
       }
       `}
       onClick={() => (isDisabled ? undefined : onClick())}
-      style={{ color: textColor, width: width ? width : "" }}
+      style={{
+        color: textColor,
+        width: width ? width : "",
+        height: height ? height : "",
+      }}
     >
       {IconComponent && (
         <IconComponent

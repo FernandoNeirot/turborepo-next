@@ -4,11 +4,12 @@ import { QueryProvider } from "./shared/providers/QueryProvider";
 import "./shared/lib/suppressSourceMapWarnings";
 import { AuthProvider } from "./shared/providers/AuthContext";
 import Header from "./features/header";
+import { GlobalLoader } from "./shared/components/GlobalLoader";
 
 export const metadata: Metadata = {
   title: "Bazar de oportunidades",
-  description: "Encuentra las mejores ofertas y oportunidades en nuestro bazar en línea.",
-
+  description:
+    "Encuentra las mejores ofertas y oportunidades en nuestro bazar en línea.",
 };
 
 export default function RootLayout({
@@ -22,8 +23,9 @@ export default function RootLayout({
         <AuthProvider>
           <QueryProvider>
             <>
-            <Header />
-            {children}
+              <Header />
+              {children}
+              <GlobalLoader />
             </>
           </QueryProvider>
         </AuthProvider>

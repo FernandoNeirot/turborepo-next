@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../shared/configs/firebase";
 import { getAdminStorage } from "../../../shared/configs/firebase-admin";
+import { generateProductSlug } from "../../../features/products/utils/slug";
 
 /**
  * GET /api/product/[id]
@@ -159,10 +160,22 @@ export async function PUT(
       );
     }
 
+    // Regenerar slug si cambió el título o precio
+    const currentData = productSnap.data();
+    let slug = currentData.slug;
+    if (body.title !== currentData.title || body.price !== currentData.price) {
+      slug = generateProductSlug(
+        body.title || currentData.title,
+        body.price || currentData.price,
+        id
+      );
+    }
+
     // Actualizar el producto
     const { updateDoc } = await import("firebase/firestore");
     await updateDoc(productRef, {
       ...body,
+      slug,
       updatedAt: new Date(),
     });
 

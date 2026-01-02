@@ -8,6 +8,7 @@ import {
   ProductsHydrationBoundary,
   useProductMutation,
   useProducts,
+  useUpdatePhoneNumber,
 } from "../../features/products";
 import { SearchBar } from "../../features/search";
 
@@ -42,6 +43,7 @@ const DashboardContent = ({
 }: DashboardContentProps) => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const { products, isLoading, error } = useProducts({ userId, searchQuery });
   const { deleteProduct } = useProductMutation({
     onSuccess: () => {
@@ -49,6 +51,14 @@ const DashboardContent = ({
     },
     onError: (error: Error) => {
       console.error("Error al eliminar producto:", error);
+    },
+  });
+  const { updatePhoneNumber, isUpdating } = useUpdatePhoneNumber({
+    onSuccess: () => {
+      setPhoneNumber("");
+    },
+    onError: (error: Error) => {
+      console.error("Error al actualizar teléfono:", error);
     },
   });
   const handleSearchChange = (query: string) => {
@@ -65,9 +75,33 @@ const DashboardContent = ({
   const handleThirdButton = (productId: string) => {
     deleteProduct(productId);
   };
+  const handleUpdatePhoneNumber = () => {
+    if (!phoneNumber.trim()) {
+      return;
+    }
+    updatePhoneNumber({ userId, phone: phoneNumber });
+  };
 
   return (
     <div className="mt-4">
+      <div className="flex items-end gap-4 mb-6">
+        <Form.Input
+          label="Celular para ser contactado por clientes"
+          value={phoneNumber}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPhoneNumber(e.target.value)
+          }
+          placeholder="Escribe para buscar..."
+        />
+        <Form.Button
+          onClick={handleUpdatePhoneNumber}
+          label={isUpdating ? "Actualizando..." : "Actualizar celular"}
+          textColor="#fff"
+          backgroundColor="BLUE"
+          height="45px"
+          isDisabled={isUpdating || !phoneNumber.trim()}
+        />
+      </div>
       <p className="text-lg flex items-center mb-4">
         Total de productos agregados:{" "}
         <span className="ml-2 mr-6 font-semibold">

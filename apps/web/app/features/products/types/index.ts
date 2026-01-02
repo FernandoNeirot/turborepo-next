@@ -3,9 +3,11 @@ export interface Product {
   title: string;
   description: string;
   descriptionClean?: string;
+  phone?: string;
   price: number;
   imageUrl: string;
   imageFile?: File;
+  slug?: string;
 }
 
 export interface ProductCardButtonAction {
@@ -27,8 +29,10 @@ export interface CreateProductInput {
   description: string;
   descriptionClean?: string;
   price: number;
+  phone?: string;
   imageUrl?: string;
   userId?: string;
+  slug?: string;
 }
 
 export interface UpdateProductInput extends CreateProductInput {

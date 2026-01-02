@@ -1,9 +1,14 @@
-'use client';
+"use client";
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { createProduct, deleteProduct, updateProduct } from '../api/productsApi';
-import type { CreateProductInput, UpdateProductInput } from '../types';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import {
+  createProduct,
+  deleteProduct,
+  updateProduct,
+} from "../api/productsApi";
+import { showLoader, hideLoader } from "../../../shared/lib/loader";
+import type { CreateProductInput, UpdateProductInput } from "../types";
 
 export interface UseProductMutationOptions {
   onSuccess?: () => void;
@@ -16,50 +21,80 @@ export function useProductMutation(options: UseProductMutationOptions = {}) {
   const router = useRouter();
 
   const createMutation = useMutation({
-    mutationFn: (input: CreateProductInput) => createProduct(input),
+    mutationFn: async (input: CreateProductInput) => {
+      showLoader("Creando producto...");
+      try {
+        return await createProduct(input);
+      } finally {
+        hideLoader();
+      }
+    },
     onSuccess: async (data, variables) => {
       if (variables.userId) {
-        queryClient.setQueryData(['products', variables.userId], (oldData: any) => {
-          return oldData ? [...oldData, data] : [data];
-        });
+        queryClient.setQueryData(
+          ["products", variables.userId],
+          (oldData: any) => {
+            return oldData ? [...oldData, data] : [data];
+          }
+        );
       }
-      queryClient.setQueryData(['products'], (oldData: any) => {
+      queryClient.setQueryData(["products"], (oldData: any) => {
         return oldData ? [...oldData, data] : [data];
       });
-      
-      queryClient.invalidateQueries({ queryKey: ['products'] });
-      
+
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+
       options.onSuccess?.();
       if (options.redirectOnSuccess) {
         router.push(options.redirectOnSuccess);
       }
     },
     onError: (error: Error) => {
+      hideLoader();
       options.onError?.(error);
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: (input: UpdateProductInput) => updateProduct(input),
+    mutationFn: async (input: UpdateProductInput) => {
+      showLoader("Actualizando producto...");
+      try {
+        return await updateProduct(input);
+      } finally {
+        hideLoader();
+      }
+    },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['products'] });
-      await queryClient.refetchQueries({ queryKey: ['products'] });
+      await queryClient.invalidateQueries({ queryKey: ["products"] });
+      await queryClient.refetchQueries({ queryKey: ["products"] });
       options.onSuccess?.();
       if (options.redirectOnSuccess) {
         router.push(options.redirectOnSuccess);
       }
     },
     onError: (error: Error) => {
+      hideLoader();
       options.onError?.(error);
     },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) => deleteProduct(id),
+    mutationFn: async (id: string) => {
+      showLoader("Eliminando producto...");
+      try {
+        return await deleteProduct(id);
+      } finally {
+        hideLoader();
+      }
+    },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['products'] });
-      await queryClient.refetchQueries({ queryKey: ['products'] });
+      await queryClient.invalidateQueries({ queryKey: ["products"] });
+      await queryClient.refetchQueries({ queryKey: ["products"] });
       options.onSuccess?.();
+    },
+    onError: (error: Error) => {
+      hideLoader();
+      options.onError?.(error);
     },
   });
 
@@ -73,10 +108,12 @@ export function useProductMutation(options: UseProductMutationOptions = {}) {
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,
-    isLoading: createMutation.isPending || updateMutation.isPending || deleteMutation.isPending,
+    isLoading:
+      createMutation.isPending ||
+      updateMutation.isPending ||
+      deleteMutation.isPending,
     createError: createMutation.error,
     updateError: updateMutation.error,
     deleteError: deleteMutation.error,
   };
 }
-

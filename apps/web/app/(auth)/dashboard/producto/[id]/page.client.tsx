@@ -3,6 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { ProductForm, useProductMutation } from "../../../../features/products";
 import { useAuth } from "../../../../shared/providers/AuthContext";
+import { generateProductSlug } from "../../../../features/products/utils/slug";
 import type {
   Product,
   CreateProductInput,
@@ -45,10 +46,14 @@ const DashboardProductoEdit = ({ product }: DashboardProductoEditProps) => {
     }
 
     try {
+      // Regenerar slug si cambió el título o precio
+      const slug = generateProductSlug(data.title, data.price, product.id);
+
       await updateProductAsync({
         id: product.id,
         ...data,
         descriptionClean: htmlToPlainText(data.description),
+        slug,
         userId: auth.user?.uid,
       });
     } catch (error) {

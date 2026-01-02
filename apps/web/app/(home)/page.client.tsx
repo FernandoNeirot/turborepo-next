@@ -1,9 +1,14 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import type { DehydratedState } from '@tanstack/react-query';
-import { SearchBar } from '../features/search';
-import { ProductList, useProducts, ProductsHydrationBoundary } from '../features/products';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import type { DehydratedState } from "@tanstack/react-query";
+import { SearchBar } from "../features/search";
+import {
+  ProductList,
+  useProducts,
+  ProductsHydrationBoundary,
+} from "../features/products";
 
 interface HomeClientProps {
   dehydratedState?: DehydratedState;
@@ -18,25 +23,27 @@ const HomeClient = ({ dehydratedState }: HomeClientProps) => {
 };
 
 const HomeContentWrapper = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
   const { filteredProducts, isLoading, error } = useProducts({ searchQuery });
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
   };
 
-  const handleViewDetails = (productId: string) => {
-    console.log('View details for product:', productId);
+  const handleViewDetails = (slugOrId: string) => {
+    // Navegar a la página del producto usando el slug
+    router.push(`/producto/${slugOrId}`);
   };
 
-  const handleAddToCart = (productId: string) => {
-    console.log('Add to cart:', productId);
+  const handleContactSeller = (linkSeller: string) => {
+    router.push(`${linkSeller}`);
   };
 
   return (
     <div
       className="p-4 mx-auto"
       style={{
-        maxWidth: '1240px',
+        maxWidth: "1240px",
       }}
     >
       <SearchBar
@@ -53,17 +60,15 @@ const HomeContentWrapper = () => {
         actions={{
           first: {
             onClick: handleViewDetails,
-            label: 'Ver detalles',
-            icon: 'info',
-            backgroundColor: 'BLUE',
-            tooltip: 'Ver detalles del producto',
+            label: "Ver detalles",
+            icon: "info",
+            backgroundColor: "BLUE",
+            tooltip: "Ver detalles del producto",
           },
           second: {
-            onClick: handleAddToCart,
-            label: 'Agregar al carrito',
-            icon: 'cart',
-            backgroundColor: 'GREEN',
-            tooltip: 'Agregar este producto al carrito',
+            onClick: handleContactSeller,
+            label: "Contactar al vendedor",
+            backgroundColor: "GREEN",
           },
         }}
       />

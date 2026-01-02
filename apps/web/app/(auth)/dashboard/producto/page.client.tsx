@@ -2,6 +2,7 @@
 import React from "react";
 import { ProductForm, useProductMutation } from "../../../features/products";
 import { useAuth } from "../../../shared/providers/AuthContext";
+import { generateProductSlug } from "../../../features/products/utils/slug";
 
 const htmlToPlainText = (html: string): string => {
   if (typeof window === "undefined") {
@@ -32,9 +33,12 @@ const DashboardProducto = () => {
     data: Parameters<typeof createProductAsync>[0]
   ) => {
     try {
+      // Generar slug temporal (se regenerará en el servidor con el ID real)
+      const tempSlug = generateProductSlug(data.title, data.price);
       await createProductAsync({
         ...data,
         descriptionClean: htmlToPlainText(data.description),
+        slug: tempSlug,
         userId: auth.user?.uid,
       });
     } catch (error) {
