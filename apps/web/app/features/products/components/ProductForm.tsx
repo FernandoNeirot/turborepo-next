@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { Form } from '@fernando_neirot2/ui';
-import type { CreateProductInput, Product } from '../types';
-import { uploadAndOptimizeImage } from '../../../shared/lib/imageStorage';
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Form } from "@fernando_neirot2/ui";
+import type { CreateProductInput, Product } from "../types";
+import { uploadAndOptimizeImage } from "../../../shared/lib/imageStorage";
 
 export interface ProductFormProps {
   initialData?: Product;
@@ -17,7 +17,7 @@ export function ProductForm({
   initialData,
   onSubmit,
   isLoading = false,
-  submitLabel = 'Guardar',
+  submitLabel = "Guardar",
 }: ProductFormProps) {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
@@ -25,7 +25,7 @@ export function ProductForm({
   );
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  
+
   const {
     register,
     handleSubmit,
@@ -42,7 +42,7 @@ export function ProductForm({
       : undefined,
   });
 
-  const imageUrlValue = watch('imageUrl');
+  const imageUrlValue = watch("imageUrl");
 
   const onSubmitForm: SubmitHandler<CreateProductInput> = async (data) => {
     try {
@@ -50,29 +50,31 @@ export function ProductForm({
       if (selectedImage) {
         setIsUploadingImage(true);
         setUploadError(null);
-        
+
         const uploadResult = await uploadAndOptimizeImage(selectedImage, {
-          folder: 'products',
+          folder: "products",
           quality: 85,
         });
-        
+
         data.imageUrl = uploadResult.url;
         setImagePreview(uploadResult.url);
         setIsUploadingImage(false);
       }
-      
+
       await onSubmit(data);
     } catch (error) {
       setIsUploadingImage(false);
-      setUploadError(error instanceof Error ? error.message : 'Error al subir la imagen');
-      console.error('Error al procesar el formulario:', error);
+      setUploadError(
+        error instanceof Error ? error.message : "Error al subir la imagen"
+      );
+      console.error("Error al procesar el formulario:", error);
     }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setSelectedImage(file);
-    setUploadError(null);    
+    setUploadError(null);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -93,11 +95,11 @@ export function ProductForm({
         label="Título del producto"
         placeholder="Ingrese el título del producto"
         error={errors.title?.message}
-        {...register('title', {
-          required: 'El título es requerido',
+        {...register("title", {
+          required: "El título es requerido",
           maxLength: {
             value: 100,
-            message: 'Máximo 100 caracteres',
+            message: "Máximo 100 caracteres",
           },
         })}
       />
@@ -107,12 +109,12 @@ export function ProductForm({
         type="number"
         step="0.01"
         error={errors.price?.message}
-        {...register('price', {
-          required: 'El precio es requerido',
+        {...register("price", {
+          required: "El precio es requerido",
           valueAsNumber: true,
           min: {
             value: 0,
-            message: 'El precio debe ser mayor a 0',
+            message: "El precio debe ser mayor a 0",
           },
         })}
       />
@@ -121,11 +123,11 @@ export function ProductForm({
           label="Descripción del producto"
           placeholder="Ingrese la descripción del producto"
           error={errors.description?.message}
-          {...register('description', {
-            required: 'La descripción es requerida',
+          {...register("description", {
+            required: "La descripción es requerida",
             maxLength: {
               value: 100,
-              message: 'Máximo 100 caracteres',
+              message: "Máximo 100 caracteres",
             },
           })}
         />
@@ -159,16 +161,21 @@ export function ProductForm({
           </div>
         )}
       </div>
-      <div className="sm:col-span-2">
-        <button
+      <div className="sm:col-span-2 flex justify-end gap-4">
+        <Form.Button
+          onClick={() => {}}
+          label="Cancelar"
+          textColor="#000"
+          backgroundColor="TRANSPARENT"
+        />
+        <Form.Button
+          onClick={() => {}}
+          label={isLoading || isUploadingImage ? "Guardando..." : submitLabel}
+          textColor="#fff"
+          backgroundColor="BLUE"
           type="submit"
-          disabled={isLoading || isUploadingImage}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          {isLoading || isUploadingImage ? 'Guardando...' : submitLabel}
-        </button>
+        />
       </div>
     </form>
   );
 }
-

@@ -5,12 +5,14 @@ import { Search } from "./search";
 
 // Wrapper para preservar correctamente los tipos opcionales
 const FormButton = (props: ButtonProps) => <Button {...props} />;
-const FormInput = (props: React.ComponentProps<typeof Input>) => <Input {...props} />;
+const FormInput = (props: React.ComponentProps<typeof Input>) => (
+  <Input {...props} />
+);
 
 export const Form = {
   Button: FormButton,
   Input: FormInput,
-  Search
+  Search,
 };
 
 export type FormType = {
