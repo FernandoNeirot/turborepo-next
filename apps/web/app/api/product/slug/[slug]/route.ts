@@ -26,7 +26,7 @@ export async function GET(
 
     // Obtener el primer resultado (el slug debe ser único)
     const doc = querySnapshot.docs[0];
-    const productData = { id: doc.id, ...doc.data() };
+    const productData = { id: doc?.id, ...doc?.data() };
 
     return NextResponse.json(
       { data: productData, error: null },
