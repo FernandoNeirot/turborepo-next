@@ -3,7 +3,6 @@
 import React from "react";
 import { Wrapper } from "@fernando_neirot2/ui";
 import type { Product, ProductCardActions } from "../types";
-import { ClientPageRoot } from "next/dist/client/components/client-page";
 
 export interface ProductGridProps {
   products: Product[];
@@ -36,10 +35,20 @@ export function ProductGrid({
         const thirdAction = actions?.third;
 
         const primaryIdentifier = product.slug || product.id;
-        const secondaryIdentifier =
+
+        const productUrl =
+          typeof window !== "undefined"
+            ? `${window.location.origin}/producto/${product.slug || product.id}`
+            : `/producto/${product.slug || product.id}`;
+
+        const whatsappMessage =
           secondAction?.label === "Contactar al vendedor"
-            ? `https://wa.me/${product.phone}?text=Hola,%20estoy%20interesado%20en%20el%20producto%20${product.title}`
-            : product.id;
+            ? `Hola,%20estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(product.title)}.%20${encodeURIComponent(productUrl)}`
+            : null;
+
+        const secondaryIdentifier = whatsappMessage
+          ? `https://wa.me/${product.phone}?text=${whatsappMessage}`
+          : product.id;
 
         return (
           <Wrapper.ProductCard

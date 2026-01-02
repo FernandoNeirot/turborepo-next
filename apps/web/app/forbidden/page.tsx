@@ -1,4 +1,6 @@
-import React from 'react'
+import React from "react";
+
+export const dynamic = "force-dynamic";
 
 const Forbidden = () => {
   return (
@@ -19,7 +21,7 @@ const Forbidden = () => {
         </a>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Forbidden
+export default Forbidden;
