@@ -83,7 +83,7 @@ export const ProductCard = ({
         <p className="text-sm text-gray-600 h-10 line-clamp-2">{description}</p>
         <div className={`flex w-full justify-between mt-4 ${flexDirection === 'column' ? 'flex-col ' : 'flex-row'} gap-4`}>
           {onClickButtonFirst && (
-            <Tooltip message={tootlipButtonFirst || ""}>
+            <Tooltip position='top' message={tootlipButtonFirst || ""}>
 
               <Button
                 onClick={onClickButtonFirst}
@@ -97,7 +97,7 @@ export const ProductCard = ({
           }
           {
             onClickButtonSecond &&
-            <Tooltip message={tootlipButtonSecond || ""}>
+            <Tooltip position='top' message={tootlipButtonSecond || ""}>
               <Button
                 onClick={onClickButtonSecond}
                 label={labelButtonSecond}
@@ -110,7 +110,7 @@ export const ProductCard = ({
           }
           {
             onClickButtonThird &&
-            <Tooltip message={tootlipButtonThird || ""}>
+            <Tooltip position='top' message={tootlipButtonThird || ""}>
               <Button
                 onClick={onClickButtonThird}
                 label={labelButtonThird}
