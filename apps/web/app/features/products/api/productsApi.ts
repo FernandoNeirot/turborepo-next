@@ -165,6 +165,7 @@ export async function updateProduct(
     body: JSON.stringify({
       title: input.title,
       description: input.description,
+      descriptionClean: input.descriptionClean,
       price: input.price,
       imageUrl: input.imageUrl,
     }),

@@ -58,8 +58,8 @@ const Textarea = forwardRef<
     },
     ref
   ) => {
-    // Editor de Tiptap para richText
     const editor = useEditor({
+      immediatelyRender: false,
       extensions: [
         StarterKit,
         TextStyle,

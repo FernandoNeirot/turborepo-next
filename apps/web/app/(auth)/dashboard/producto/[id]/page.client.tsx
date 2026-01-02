@@ -8,6 +8,18 @@ import type {
   CreateProductInput,
 } from "../../../../features/products/types";
 
+const htmlToPlainText = (html: string): string => {
+  if (typeof window === "undefined") {
+    return html
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .trim();
+  }
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = html;
+  return tempDiv.textContent || tempDiv.innerText || "";
+};
+
 interface DashboardProductoEditProps {
   product: Product | null;
 }
@@ -36,6 +48,7 @@ const DashboardProductoEdit = ({ product }: DashboardProductoEditProps) => {
       await updateProductAsync({
         id: product.id,
         ...data,
+        descriptionClean: htmlToPlainText(data.description),
         userId: auth.user?.uid,
       });
     } catch (error) {

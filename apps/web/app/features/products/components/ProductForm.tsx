@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Form } from "@fernando_neirot2/ui";
 import type { CreateProductInput, Product } from "../types";
 import { uploadAndOptimizeImage } from "../../../shared/lib/imageStorage";
@@ -31,6 +31,7 @@ export function ProductForm({
     handleSubmit,
     formState: { errors },
     watch,
+    control,
   } = useForm<CreateProductInput>({
     defaultValues: initialData
       ? {
@@ -119,17 +120,30 @@ export function ProductForm({
         })}
       />
       <div className="sm:col-span-2">
-        <Form.Input
-          label="Descripción del producto"
-          placeholder="Ingrese la descripción del producto"
-          error={errors.description?.message}
-          {...register("description", {
+        <Controller
+          name="description"
+          control={control}
+          rules={{
             required: "La descripción es requerida",
             maxLength: {
-              value: 100,
-              message: "Máximo 100 caracteres",
+              value: 1000,
+              message: "Máximo 1000 caracteres",
             },
-          })}
+          }}
+          render={({ field }) => (
+            <Form.Textarea
+              richText
+              label="Descripción del producto"
+              placeholder="Ingrese la descripción del producto"
+              error={errors.description?.message}
+              value={field.value || ""}
+              onChange={(e) => {
+                field.onChange(e.target.value);
+              }}
+              onBlur={field.onBlur}
+              name={field.name}
+            />
+          )}
         />
       </div>
 

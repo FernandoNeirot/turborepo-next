@@ -2,6 +2,7 @@ export interface Product {
   id: string;
   title: string;
   description: string;
+  descriptionClean?: string;
   price: number;
   imageUrl: string;
   imageFile?: File;
@@ -24,6 +25,7 @@ export interface ProductCardActions {
 export interface CreateProductInput {
   title: string;
   description: string;
+  descriptionClean?: string;
   price: number;
   imageUrl?: string;
   userId?: string;
