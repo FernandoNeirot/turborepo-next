@@ -43,7 +43,7 @@ export function ProductGrid({
 
         const whatsappMessage =
           secondAction?.label === "Contactar al vendedor"
-            ? `Hola,%20estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(product.title)}.%20${encodeURIComponent(productUrl)}`
+            ? `Hola,%20estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(product.title)}.%0A${encodeURIComponent(productUrl)}`
             : null;
 
         const secondaryIdentifier = whatsappMessage
