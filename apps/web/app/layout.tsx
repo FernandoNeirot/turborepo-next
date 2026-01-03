@@ -19,7 +19,7 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html lang="es">
-      <body>
+      <body className="flex flex-col items-center min-h-screen">
         <AuthProvider>
           <QueryProvider>
             <>
@@ -29,6 +29,9 @@ export default function RootLayout({
             </>
           </QueryProvider>
         </AuthProvider>
+        <div className="mt-50 mb-4 text-center text-sm text-gray-500">
+          Aplicacion desarrollada solo para demo tecnica. &copy; 2026
+        </div>
       </body>
     </html>
   );

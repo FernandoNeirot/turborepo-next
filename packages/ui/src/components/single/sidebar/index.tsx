@@ -8,6 +8,7 @@ export interface SidebarMobileProps {
   onDashboardClick?: () => void;
   onLogoutClick?: () => void;
   onLoginClick?: () => void;
+  handleHome?: () => void;
 }
 
 const SidebarMobile = ({
@@ -18,6 +19,7 @@ const SidebarMobile = ({
   onDashboardClick,
   onLogoutClick,
   onLoginClick,
+  handleHome,
 }: SidebarMobileProps) => {
   useEffect(() => {
     if (isOpen) {
@@ -107,6 +109,12 @@ const SidebarMobile = ({
           <div className="flex-1 overflow-y-auto p-6">
             {isAuth ? (
               <nav className="flex flex-col gap-4">
+                <button
+                  onClick={handleHome}
+                  className="text-left px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-medium"
+                >
+                  Inicio
+                </button>
                 {onDashboardClick && (
                   <button
                     onClick={handleDashboard}

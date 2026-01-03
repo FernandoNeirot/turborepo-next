@@ -4,7 +4,6 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../shared/providers/AuthContext";
 import { Single } from "@fernando_neirot2/ui";
-import type { SidebarMobileProps } from "@fernando_neirot2/ui";
 
 export interface SidebarMobileWrapperProps {
   isOpen: boolean;
@@ -25,7 +24,9 @@ export function SidebarMobileWrapper({
   const handleDashboard = () => {
     router.push("/dashboard");
   };
-
+  const handleHome = () => {
+    router.push("/");
+  };
   const handleLogout = async () => {
     await auth.logout();
   };
@@ -43,6 +44,7 @@ export function SidebarMobileWrapper({
       onDashboardClick={handleDashboard}
       onLogoutClick={handleLogout}
       onLoginClick={handleLogin}
+      handleHome={handleHome}
     />
   );
 }

@@ -3,16 +3,23 @@
 import React from "react";
 import Image from "next/image";
 import type { Product } from "../../features/products/types";
+import { Form as FormUI } from "@fernando_neirot2/ui";
 
 interface ProductPageClientProps {
   product: Product;
 }
 
 export default function ProductPageClient({ product }: ProductPageClientProps) {
+  const productUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/producto/${product.slug || product.id}`
+      : `/producto/${product.slug || product.id}`;
+  const whatsappMessage = `Hola,%20estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(product.title)}.%0A${encodeURIComponent(productUrl)}`;
+  const linkSeller = `https://wa.me/${product.phone}?text=${whatsappMessage}`;
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
           {/* Imagen del producto */}
           <div className="relative w-full aspect-square bg-gray-200 rounded-lg overflow-hidden">
             {product.imageUrl ? (
@@ -53,6 +60,15 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
             </div>
           </div>
         </div>
+        <FormUI.Button
+          onClick={() => {
+            window.open(linkSeller, "_blank", "noopener,noreferrer");
+          }}
+          label="Contactar al vendedor"
+          textColor="#fff"
+          width="100%"
+          backgroundColor="GREEN"
+        />
       </div>
     </div>
   );

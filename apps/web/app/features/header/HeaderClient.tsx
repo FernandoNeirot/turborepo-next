@@ -42,6 +42,7 @@ const HeaderClient = ({ serverUser }: HeaderClientProps) => {
           onDashboardClick={() => router.push("/dashboard")}
           onLogoutClick={auth.logout}
           onLoginClick={auth.loginWithGoogle}
+          handleHome={() => router.push("/")}
         />
       </div>
       <div className="fixed w-full top-0 left-0 z-50">
