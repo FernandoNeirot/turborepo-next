@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "../../form/button";
 import Tooltip from "../../wrapper/tooltip";
-import { Menu } from "lucide-react";
 
 export interface HeaderProps {
   logoUrl?: string;
@@ -9,6 +8,7 @@ export interface HeaderProps {
   subTitle?: string;
   welcomeLabel?: string;
   onClickLogo?: () => void;
+  onClickMenu?: () => void;
   onWelcomeClick: () => void;
   onClickLogin: () => void;
   isAuthenticated?: boolean;
@@ -23,6 +23,7 @@ const Header = ({
   welcomeLabel,
   onWelcomeClick,
   onClickLogin,
+  onClickMenu,
   onClickLogo,
   maxWidth = "100%",
 }: HeaderProps) => {
@@ -55,7 +56,7 @@ const Header = ({
         <div className="sm:hidden">
           <Button
             icon="menu"
-            onClick={() => {}}
+            onClick={() => onClickMenu && onClickMenu()}
             backgroundColor="TRANSPARENT"
             textColor="#000"
           />

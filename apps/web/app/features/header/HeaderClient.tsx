@@ -12,6 +12,7 @@ interface HeaderClientProps {
 const HeaderClient = ({ serverUser }: HeaderClientProps) => {
   const auth = useAuth();
   const router = useRouter();
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [displayName, setDisplayName] = useState<string | null>(
     serverUser?.displayName || null
   );
@@ -32,11 +33,23 @@ const HeaderClient = ({ serverUser }: HeaderClientProps) => {
   return (
     <div className="w-full">
       <div style={{ height: "60px" }} />
+      <div>
+        <Single.SidebarMobile
+          isOpen={isOpenSidebar}
+          onClose={() => setIsOpenSidebar(false)}
+          user={displayName}
+          isAuth={isAuthenticated}
+          onDashboardClick={() => router.push("/dashboard")}
+          onLogoutClick={auth.logout}
+          onLoginClick={auth.loginWithGoogle}
+        />
+      </div>
       <div className="fixed w-full top-0 left-0 z-50">
         <Single.Header
           title="NEGOCIA"
           subTitle="Compra-venta Inteligente"
           logoUrl="/logo.webp"
+          onClickMenu={() => setIsOpenSidebar(true)}
           welcomeLabel={
             isAuthenticated && displayName
               ? `Hola, ${displayName}`

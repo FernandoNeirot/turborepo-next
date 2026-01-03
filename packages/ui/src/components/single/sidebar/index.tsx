@@ -60,7 +60,7 @@ const SidebarMobile = ({
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black z-40 transition-opacity duration-300 ease-in-out ${
+        className={` fixed inset-0 bg-black z-90 transition-opacity duration-300 ease-in-out ${
           isOpen ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -69,7 +69,7 @@ const SidebarMobile = ({
 
       {/* Sidebar que se desliza de derecha a izquierda */}
       <div
-        className={`fixed top-0 right-0 h-full z-50 bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full z-100 bg-white shadow-xl transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         style={{ width: "auto", minWidth: "280px" }}
