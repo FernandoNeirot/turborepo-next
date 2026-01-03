@@ -1,10 +1,24 @@
-import { Search, Home, User, Settings, Trash, Eye, ShoppingCart, Plus, LogIn, LogOut, Heart, SquarePen   } from "lucide-react";
+import {
+  Search,
+  Home,
+  User,
+  Settings,
+  Trash,
+  Eye,
+  ShoppingCart,
+  Plus,
+  LogIn,
+  LogOut,
+  Heart,
+  SquarePen,
+  Menu,
+} from "lucide-react";
 
 export const iconMap = {
   cart: { icon: ShoppingCart, name: "Cart" },
   delete: { icon: Trash, name: "Delete" },
-  edit: { icon: SquarePen , name: "Edit" },
-  heart : { icon: Heart , name: "Heart" },
+  edit: { icon: SquarePen, name: "Edit" },
+  heart: { icon: Heart, name: "Heart" },
   home: { icon: Home, name: "Home" },
   logout: { icon: LogOut, name: "Logout" },
   login: { icon: LogIn, name: "Login" },
@@ -13,6 +27,7 @@ export const iconMap = {
   settings: { icon: Settings, name: "Settings" },
   user: { icon: User, name: "User" },
   view: { icon: Eye, name: "View" },
+  menu: { icon: Menu, name: "Menu" },
   none: { icon: () => null, name: "None" },
 } as const;
 

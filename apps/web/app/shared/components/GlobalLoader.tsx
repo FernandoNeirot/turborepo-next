@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Loader } from "@fernando_neirot2/ui";
+import { Single } from "@fernando_neirot2/ui";
 
 function LoaderContent() {
   const searchParams = useSearchParams();
@@ -11,7 +11,7 @@ function LoaderContent() {
     ? decodeURIComponent(searchParams.get("message") || "")
     : "Cargando...";
 
-  return <Loader isLoading={isLoading} message={message} />;
+  return <Single.Loader isLoading={isLoading} message={message} />;
 }
 
 export function GlobalLoader() {

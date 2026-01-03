@@ -8,5 +8,10 @@ export type { FormType } from "./components/form";
 export { Wrapper } from "./components/wrapper";
 export type { WrapperType, ProductCardProps } from "./components/wrapper";
 
-export { Loader } from "./components/loader";
-export type { LoaderProps } from "./components/loader";
+export { Single } from "./components/single";
+export type {
+  SingleType,
+  HeaderProps,
+  LoaderProps,
+  SidebarMobileProps,
+} from "./components/single";

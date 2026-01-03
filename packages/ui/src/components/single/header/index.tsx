@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "../../form/button";
-import Tooltip from "../tooltip";
+import Tooltip from "../../wrapper/tooltip";
+import { Menu } from "lucide-react";
+
 export interface HeaderProps {
   logoUrl?: string;
   title?: string;
@@ -27,7 +29,7 @@ const Header = ({
   return (
     <div
       style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
-      className={`relative w-full text-black min-h-[60px] flex items-center px-4 shadow-md justify-between`}
+      className={`relative w-full text-black min-h-15 flex items-center px-4 shadow-md justify-between`}
     >
       <div
         style={{ maxWidth }}
@@ -49,7 +51,16 @@ const Header = ({
             <p className="text-sm text-black">{subTitle}</p>
           </div>
         </div>
-        <div className="flex items-center">
+
+        <div className="sm:hidden">
+          <Button
+            icon="menu"
+            onClick={() => {}}
+            backgroundColor="TRANSPARENT"
+            textColor="#000"
+          />
+        </div>
+        <div className="hidden sm:flex items-center">
           <Tooltip
             position="bottom"
             message={isAuthenticated ? "Ver mi dashboard" : ""}
