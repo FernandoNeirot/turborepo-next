@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { DehydratedState } from "@tanstack/react-query";
 import { Form } from "@fernando_neirot2/ui";
@@ -82,9 +82,15 @@ const DashboardContent = ({
     updatePhoneNumber({ userId, phone: phoneNumber });
   };
 
+  useEffect(() => {
+    if (products.length > 0) {
+      setPhoneNumber(products[0]?.phone || "");
+    }
+  }, [products]);
+
   return (
     <div className="mt-4">
-      <div className="flex items-end gap-4 mb-6">
+      <div className="sm:flex items-end gap-4 mb-6">
         <Form.Input
           label="Celular para ser contactado por clientes"
           value={phoneNumber}
@@ -99,21 +105,29 @@ const DashboardContent = ({
           textColor="#fff"
           backgroundColor="BLUE"
           height="45px"
-          isDisabled={isUpdating || !phoneNumber.trim()}
+          width="100%"
+          isDisabled={
+            isUpdating ||
+            !phoneNumber.trim() ||
+            phoneNumber === products[0]?.phone
+          }
         />
       </div>
-      <p className="text-lg flex items-center mb-4">
-        Total de productos agregados:{" "}
-        <span className="ml-2 mr-6 font-semibold">
-          {isLoading ? "..." : products.length}
-        </span>
+      <div className="sm:flex sm:items-center mb-4 gap-4">
+        <p className="text-lg flex items-center">
+          Total de productos agregados:{" "}
+          <span className="ml-2 mr-6 font-semibold">
+            {isLoading ? "..." : products.length}
+          </span>
+        </p>
         <Form.Button
           onClick={goToAddProduct}
-          label="Nuevo producto"
+          label="Agregar nuevo producto"
           textColor="#fff"
           backgroundColor="BLUE"
         />
-      </p>
+      </div>
+
       <SearchBar
         query={searchQuery}
         onSearchChange={handleSearchChange}

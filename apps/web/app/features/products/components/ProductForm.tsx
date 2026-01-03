@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Form } from "@fernando_neirot2/ui";
 import type { CreateProductInput, Product } from "../types";
@@ -90,7 +91,7 @@ export function ProductForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmitForm)}
-      className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4"
+      className="mt-4 mb-10 grid grid-cols-1 sm:grid-cols-2 gap-4"
     >
       <Form.Input
         label="Título del producto"
@@ -167,9 +168,11 @@ export function ProductForm({
         )}
         {imagePreview && (
           <div className="mt-4">
-            <img
+            <Image
               src={imagePreview}
               alt="Vista previa"
+              width={320}
+              height={192}
               className="max-w-xs max-h-48 object-cover rounded-lg border border-gray-300"
             />
           </div>
