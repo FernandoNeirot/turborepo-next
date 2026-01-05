@@ -18,7 +18,7 @@ export async function GET(
       .where("slug", "==", slug)
       .get();
 
-    if (querySnapshot.empty) {
+    if (querySnapshot.empty || querySnapshot.docs.length === 0) {
       return NextResponse.json(
         { data: null, error: "Producto no encontrado" },
         { status: 404 }
@@ -27,6 +27,12 @@ export async function GET(
 
     // Obtener el primer resultado (el slug debe ser único)
     const doc = querySnapshot.docs[0];
+    if (!doc) {
+      return NextResponse.json(
+        { data: null, error: "Producto no encontrado" },
+        { status: 404 }
+      );
+    }
     const productData = { id: doc.id, ...doc.data() };
 
     return NextResponse.json(
