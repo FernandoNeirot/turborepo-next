@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getProductBySlug } from "../../features/products";
 import { getBaseUrl } from "../../shared/lib/metadata";
 import ProductPageClient from "./page.client";
+import { projectName } from "../../shared/lib/contants";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -40,7 +41,7 @@ export async function generateMetadata({
     const description = stripHtml(
       product.descriptionClean || product.description || ""
     );
-    const title = `${product.title} - Mercado del Emprendedor`;
+    const title = `${product.title} - ${projectName}`;
     const price = `$${product.price.toLocaleString("en-US", {
       maximumFractionDigits: 0,
     })}`;
@@ -56,12 +57,12 @@ export async function generateMetadata({
         "comprar",
         price,
       ],
-      authors: [{ name: "Mercado del Emprendedor" }],
+      authors: [{ name: projectName }],
       openGraph: {
         title,
         description: description || `Compra ${product.title} por ${price}`,
         url: productUrl,
-        siteName: "Mercado del Emprendedor",
+        siteName: projectName,
         images: product.imageUrl
           ? [
               {
@@ -92,7 +93,7 @@ export async function generateMetadata({
   } catch (error) {
     console.error("Error al generar metadata:", error);
     return {
-      title: "Producto - Mercado del Emprendedor",
+      title: `Producto - ${projectName}`,
       description: "Encuentra las mejores ofertas y oportunidades.",
     };
   }

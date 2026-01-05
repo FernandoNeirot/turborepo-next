@@ -5,9 +5,10 @@ import "./shared/lib/suppressSourceMapWarnings";
 import { AuthProvider } from "./shared/providers/AuthContext";
 import Header from "./features/header";
 import { GlobalLoader } from "./shared/components/GlobalLoader";
+import { projectName } from "./shared/lib/contants";
 
 export const metadata: Metadata = {
-  title: "Mercado del Emprendedor",
+  title: projectName,
   description:
     "Encuentra las mejores ofertas y oportunidades en nuestro bazar en línea.",
 };
