@@ -40,12 +40,7 @@ const HomeContentWrapper = () => {
   };
 
   return (
-    <div
-      className="p-4 mx-auto"
-      style={{
-        maxWidth: "1240px",
-      }}
-    >
+    <div className="w-full max-w-310 p-4 mx-auto">
       <SearchBar
         query={searchQuery}
         onSearchChange={handleSearchChange}
