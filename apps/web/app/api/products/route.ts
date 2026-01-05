@@ -1,33 +1,40 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { Product } from '../../features/products';
-import { db } from '../../shared/configs/firebase';
+import { NextRequest, NextResponse } from "next/server";
+import { Product } from "../../features/products";
+import { getAdminFirestore } from "../../shared/configs/firebase-admin";
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = request.nextUrl.searchParams.get('userId');
-    let q;
+    const db = getAdminFirestore();
+    const userId = request.nextUrl.searchParams.get("userId");
+
+    let querySnapshot;
     if (userId) {
-      q = query(collection(db, "products"), where("userId", "==", userId));
+      querySnapshot = await db
+        .collection("products")
+        .where("userId", "==", userId)
+        .get();
     } else {
-      q = query(collection(db, "products"));
+      querySnapshot = await db.collection("products").get();
     }
 
-    const querySnapshot = await getDocs(q);
     const products: Product[] = [];
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      data.id = doc.id;
-      products.push(data as Product);
+      products.push({
+        ...data,
+        id: doc.id,
+      } as Product);
     });
 
     return NextResponse.json({ data: products, error: null }, { status: 200 });
   } catch (error) {
+    console.error("Error fetching products:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Error fetching products";
     return NextResponse.json(
-      { data: null, error: 'Error fetching products' },
+      { data: null, error: errorMessage },
       { status: 500 }
     );
   }
 }
-
