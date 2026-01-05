@@ -1,25 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { Product } from "../../features/products";
-import { db } from "../../shared/configs/firebase";
+import { getAdminFirestore } from "../../shared/configs/firebase-admin";
 import { generateProductSlug } from "../../features/products/utils/slug";
 
 export async function GET(request: NextRequest) {
   try {
+    const db = getAdminFirestore();
     const products: Product[] = [];
-    const q = query(collection(db, "products"));
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await db.collection("products").get();
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      data.id = doc.id;
-      products.push(data as Product);
+      products.push({
+        ...data,
+        id: doc.id,
+      } as Product);
     });
     return NextResponse.json({ data: products, error: null }, { status: 200 });
   } catch (error) {
     console.error("[API Route] Error fetching products:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Error fetching products";
     return NextResponse.json(
-      { data: null, error: "Error fetching products" },
+      { data: null, error: errorMessage },
       { status: 500 }
     );
   }
@@ -27,17 +30,17 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const db = getAdminFirestore();
     const body = await request.json();
-    const { addDoc, updateDoc } = await import("firebase/firestore");
 
     // Crear el producto primero
-    const docRef = await addDoc(collection(db, "products"), body);
+    const docRef = await db.collection("products").add(body);
 
     // Generar slug con el ID real
     const slug = generateProductSlug(body.title, body.price, docRef.id);
 
     // Actualizar el producto con el slug generado
-    await updateDoc(docRef, { slug });
+    await docRef.update({ slug });
 
     return NextResponse.json(
       { data: { id: docRef.id, ...body, slug }, error: null },
@@ -45,8 +48,10 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error("[API Route] Error creating product:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Error creating product";
     return NextResponse.json(
-      { data: null, error: "Error creating product" },
+      { data: null, error: errorMessage },
       { status: 500 }
     );
   }
