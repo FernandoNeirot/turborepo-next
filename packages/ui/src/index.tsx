@@ -15,3 +15,6 @@ export type {
   LoaderProps,
   SidebarMobileProps,
 } from "./components/single";
+
+export { Modal } from "./components/modal";
+export type { ModalType, AlertModalProps } from "./components/modal";

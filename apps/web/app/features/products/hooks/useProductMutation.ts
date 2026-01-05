@@ -8,6 +8,7 @@ import {
   updateProduct,
 } from "../api/productsApi";
 import { showLoader, hideLoader } from "../../../shared/lib/loader";
+import { toast, getErrorMessage } from "../../../shared/lib/toast";
 import type { CreateProductInput, UpdateProductInput } from "../types";
 
 export interface UseProductMutationOptions {
@@ -44,6 +45,8 @@ export function useProductMutation(options: UseProductMutationOptions = {}) {
 
       queryClient.invalidateQueries({ queryKey: ["products"] });
 
+      toast.success("Producto creado", "El producto se ha creado exitosamente");
+
       options.onSuccess?.();
       if (options.redirectOnSuccess) {
         router.push(options.redirectOnSuccess);
@@ -51,6 +54,7 @@ export function useProductMutation(options: UseProductMutationOptions = {}) {
     },
     onError: (error: Error) => {
       hideLoader();
+      toast.error("Error al crear producto", getErrorMessage(error));
       options.onError?.(error);
     },
   });
@@ -67,6 +71,10 @@ export function useProductMutation(options: UseProductMutationOptions = {}) {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["products"] });
       await queryClient.refetchQueries({ queryKey: ["products"] });
+      toast.success(
+        "Producto actualizado",
+        "El producto se ha actualizado exitosamente"
+      );
       options.onSuccess?.();
       if (options.redirectOnSuccess) {
         router.push(options.redirectOnSuccess);
@@ -74,6 +82,7 @@ export function useProductMutation(options: UseProductMutationOptions = {}) {
     },
     onError: (error: Error) => {
       hideLoader();
+      toast.error("Error al actualizar producto", getErrorMessage(error));
       options.onError?.(error);
     },
   });
@@ -90,10 +99,15 @@ export function useProductMutation(options: UseProductMutationOptions = {}) {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["products"] });
       await queryClient.refetchQueries({ queryKey: ["products"] });
+      toast.success(
+        "Producto eliminado",
+        "El producto se ha eliminado exitosamente"
+      );
       options.onSuccess?.();
     },
     onError: (error: Error) => {
       hideLoader();
+      toast.error("Error al eliminar producto", getErrorMessage(error));
       options.onError?.(error);
     },
   });

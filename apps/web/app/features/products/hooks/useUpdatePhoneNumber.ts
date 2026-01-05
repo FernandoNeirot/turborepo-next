@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updatePhoneNumber } from "../api/productsApi";
 import { showLoader, hideLoader } from "../../../shared/lib/loader";
+import { toast, getErrorMessage } from "../../../shared/lib/toast";
 import type {
   UpdatePhoneNumberInput,
   UpdatePhoneNumberResponse,
@@ -34,10 +35,15 @@ export function useUpdatePhoneNumber(
         queryKey: ["products", variables.userId],
       });
 
+      toast.success(
+        "Número actualizado",
+        "El número de teléfono se ha actualizado exitosamente"
+      );
       options.onSuccess?.(data);
     },
     onError: (error: Error) => {
       hideLoader();
+      toast.error("Error al actualizar número", getErrorMessage(error));
       options.onError?.(error);
     },
   });

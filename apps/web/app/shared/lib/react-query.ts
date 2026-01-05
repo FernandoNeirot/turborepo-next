@@ -4,7 +4,11 @@
  * y hidratarlos en el cliente
  */
 
-import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import {
+  QueryClient,
+  dehydrate,
+  HydrationBoundary,
+} from "@tanstack/react-query";
 
 export function makeQueryClient() {
   return new QueryClient({
@@ -13,6 +17,12 @@ export function makeQueryClient() {
         staleTime: 3600 * 1000, // 1 hora
         refetchOnWindowFocus: false,
         retry: 1,
+        // Los errores de queries se manejan individualmente en cada componente
+        // No se muestran toasts automáticamente para queries porque pueden ser transitorios
+      },
+      mutations: {
+        // Los errores de mutaciones se manejan en cada hook usando toast
+        // Ver: useProductMutation, useUpdatePhoneNumber, etc.
       },
     },
   });
@@ -21,7 +31,7 @@ export function makeQueryClient() {
 let browserQueryClient: QueryClient | undefined = undefined;
 
 export function getQueryClient() {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return makeQueryClient();
   } else {
     if (!browserQueryClient) {
@@ -44,4 +54,3 @@ export async function prefetchQuery<T>(
     retryDelay: 1000,
   });
 }
-
