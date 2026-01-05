@@ -19,19 +19,19 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html lang="es">
-      <body className="flex flex-col items-center min-h-screen">
+      <body className="flex flex-col min-h-screen">
         <AuthProvider>
           <QueryProvider>
-            <>
+            <div className="flex flex-col items-center flex-1">
               <Header />
-              {children}
+              <main className="flex-1 w-full">{children}</main>
               <GlobalLoader />
-            </>
+            </div>
+            <footer className="mt-auto py-4 text-center text-sm text-gray-500 w-full">
+              Aplicacion desarrollada solo para demo tecnica. &copy; 2026
+            </footer>
           </QueryProvider>
         </AuthProvider>
-        <div className="mt-50 mb-4 text-center text-sm text-gray-500">
-          Aplicacion desarrollada solo para demo tecnica. &copy; 2026
-        </div>
       </body>
     </html>
   );

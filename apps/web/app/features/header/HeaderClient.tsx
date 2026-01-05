@@ -18,13 +18,11 @@ const HeaderClient = ({ serverUser }: HeaderClientProps) => {
   );
   const [isAuthenticated, setIsAuthenticated] = useState(!!serverUser);
 
-  // Actualizar cuando auth.user cambie (después de que se cargue en el cliente)
   useEffect(() => {
     if (auth.user) {
       setDisplayName(auth.user.displayName || null);
       setIsAuthenticated(true);
     } else if (!auth.loading) {
-      // Solo actualizar a false si ya terminó de cargar y no hay usuario
       setIsAuthenticated(false);
       setDisplayName(null);
     }
