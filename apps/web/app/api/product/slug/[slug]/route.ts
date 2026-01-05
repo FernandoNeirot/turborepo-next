@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../../../shared/configs/firebase";
+import { getAdminFirestore } from "../../../../shared/configs/firebase-admin";
 
 /**
  * GET /api/product/slug/[slug]
@@ -11,11 +10,13 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ): Promise<NextResponse> {
   try {
+    const db = getAdminFirestore();
     const { slug } = await params;
 
-    const productsRef = collection(db, "products");
-    const q = query(productsRef, where("slug", "==", slug));
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await db
+      .collection("products")
+      .where("slug", "==", slug)
+      .get();
 
     if (querySnapshot.empty) {
       return NextResponse.json(
@@ -26,7 +27,7 @@ export async function GET(
 
     // Obtener el primer resultado (el slug debe ser único)
     const doc = querySnapshot.docs[0];
-    const productData = { id: doc?.id, ...doc?.data() };
+    const productData = { id: doc.id, ...doc.data() };
 
     return NextResponse.json(
       { data: productData, error: null },

@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  writeBatch,
-} from "firebase/firestore";
-import { db } from "../../../shared/configs/firebase";
+import { getAdminFirestore } from "../../../shared/configs/firebase-admin";
 
 /**
  * PUT /api/product/phone
@@ -15,6 +8,7 @@ import { db } from "../../../shared/configs/firebase";
  */
 export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
+    const db = getAdminFirestore();
     const body = await request.json();
     const { userId, phone } = body;
 
@@ -26,9 +20,10 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
     }
 
     // Buscar todos los productos del usuario
-    const productsRef = collection(db, "products");
-    const q = query(productsRef, where("userId", "==", userId));
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await db
+      .collection("products")
+      .where("userId", "==", userId)
+      .get();
 
     if (querySnapshot.empty) {
       return NextResponse.json(
@@ -38,7 +33,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
     }
 
     // Actualizar todos los productos en un batch
-    const batch = writeBatch(db);
+    const batch = db.batch();
     let updatedCount = 0;
 
     querySnapshot.forEach((doc) => {

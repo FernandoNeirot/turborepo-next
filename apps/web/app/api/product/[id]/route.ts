@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../shared/configs/firebase";
-import { getAdminStorage } from "../../../shared/configs/firebase-admin";
+import {
+  getAdminFirestore,
+  getAdminStorage,
+} from "../../../shared/configs/firebase-admin";
 import { generateProductSlug } from "../../../features/products/utils/slug";
 
 /**
@@ -13,12 +14,12 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
+    const db = getAdminFirestore();
     const { id } = await params;
+    const productRef = db.collection("products").doc(id);
+    const productSnap = await productRef.get();
 
-    const productRef = doc(db, "products", id);
-    const productSnap = await getDoc(productRef);
-
-    if (!productSnap.exists()) {
+    if (!productSnap.exists) {
       return NextResponse.json(
         { data: null, error: "Producto no encontrado" },
         { status: 404 }
@@ -48,12 +49,13 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
+    const db = getAdminFirestore();
     const { id } = await params;
 
-    const productRef = doc(db, "products", id);
-    const productSnap = await getDoc(productRef);
+    const productRef = db.collection("products").doc(id);
+    const productSnap = await productRef.get();
 
-    if (!productSnap.exists()) {
+    if (!productSnap.exists) {
       return NextResponse.json(
         { data: null, error: "Producto no encontrado" },
         { status: 404 }
@@ -62,7 +64,7 @@ export async function DELETE(
 
     const productData = productSnap.data();
 
-    if (productData.imageUrl) {
+    if (productData?.imageUrl) {
       try {
         const imageUrl = productData.imageUrl as string;
         const imagePath = extractImagePathFromUrl(imageUrl);
@@ -86,8 +88,7 @@ export async function DELETE(
     }
 
     // Eliminar el producto de Firestore
-    const { deleteDoc } = await import("firebase/firestore");
-    await deleteDoc(productRef);
+    await productRef.delete();
 
     return NextResponse.json({ data: { id }, error: null }, { status: 200 });
   } catch (error) {
@@ -146,14 +147,15 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
+    const db = getAdminFirestore();
     const { id } = await params;
     const body = await request.json();
 
     // Verificar que el producto existe
-    const productRef = doc(db, "products", id);
-    const productSnap = await getDoc(productRef);
+    const productRef = db.collection("products").doc(id);
+    const productSnap = await productRef.get();
 
-    if (!productSnap.exists()) {
+    if (!productSnap.exists) {
       return NextResponse.json(
         { data: null, error: "Producto no encontrado" },
         { status: 404 }
@@ -162,25 +164,27 @@ export async function PUT(
 
     // Regenerar slug si cambió el título o precio
     const currentData = productSnap.data();
-    let slug = currentData.slug;
-    if (body.title !== currentData.title || body.price !== currentData.price) {
+    let slug = currentData?.slug;
+    if (
+      body.title !== currentData?.title ||
+      body.price !== currentData?.price
+    ) {
       slug = generateProductSlug(
-        body.title || currentData.title,
-        body.price || currentData.price,
+        body.title || currentData?.title || "",
+        body.price || currentData?.price || 0,
         id
       );
     }
 
     // Actualizar el producto
-    const { updateDoc } = await import("firebase/firestore");
-    await updateDoc(productRef, {
+    await productRef.update({
       ...body,
       slug,
       updatedAt: new Date(),
     });
 
     // Obtener el producto actualizado
-    const updatedSnap = await getDoc(productRef);
+    const updatedSnap = await productRef.get();
     const updatedData = { id: updatedSnap.id, ...updatedSnap.data() };
 
     return NextResponse.json(
