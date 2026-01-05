@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { DehydratedState } from "@tanstack/react-query";
 import { Form } from "@fernando_neirot2/ui";
@@ -11,6 +11,7 @@ import {
   useUpdatePhoneNumber,
 } from "../../features/products";
 import { SearchBar } from "../../features/search";
+import { useUser } from "../../shared/hooks/useUser";
 
 interface DashboardClientProps {
   dehydratedState?: DehydratedState;
@@ -33,7 +34,6 @@ const Dashboard = ({ dehydratedState, userId }: DashboardClientProps) => {
 
 interface DashboardContentProps {
   goToAddProduct: () => void;
-
   userId: string;
 }
 
@@ -44,6 +44,8 @@ const DashboardContent = ({
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const hasInitializedPhone = useRef(false);
+  const { user } = useUser();
   const { products, isLoading, error } = useProducts({ userId, searchQuery });
   const { deleteProduct } = useProductMutation({
     onSuccess: () => {
@@ -54,9 +56,6 @@ const DashboardContent = ({
     },
   });
   const { updatePhoneNumber, isUpdating } = useUpdatePhoneNumber({
-    onSuccess: () => {
-      setPhoneNumber("");
-    },
     onError: (error: Error) => {
       console.error("Error al actualizar teléfono:", error);
     },
@@ -64,8 +63,9 @@ const DashboardContent = ({
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
   };
-  const handleFirstButton = (productId: string) => {
-    console.log("ver:", productId);
+  const handleViewDetails = (slugOrId: string) => {
+    // Navegar a la página del producto usando el slug
+    router.push(`/producto/${slugOrId}`);
   };
 
   const handleSecondButton = (productId: string) => {
@@ -83,20 +83,22 @@ const DashboardContent = ({
   };
 
   useEffect(() => {
-    if (products.length > 0) {
-      setPhoneNumber(products[0]?.phone || "");
+    if (user?.phone && !hasInitializedPhone.current) {
+      setPhoneNumber(user.phone);
+      hasInitializedPhone.current = true;
     }
-  }, [products]);
+  }, [user?.phone]);
 
   return (
     <div className="mt-4">
-      <div className="sm:flex items-end gap-4 mb-6">
+      <div className="sm:flex items-center gap-4 mb-6">
         <Form.Input
           label="Celular para ser contactado por clientes"
           value={phoneNumber}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPhoneNumber(e.target.value)
           }
+          helperText="El celular debe ser válido y tener minimo 8 digitos"
           placeholder="Escribe para buscar..."
         />
         <Form.Button
@@ -109,7 +111,8 @@ const DashboardContent = ({
           isDisabled={
             isUpdating ||
             !phoneNumber.trim() ||
-            phoneNumber === products[0]?.phone
+            phoneNumber.length < 8 ||
+            phoneNumber === user?.phone
           }
         />
       </div>
@@ -125,9 +128,14 @@ const DashboardContent = ({
           label="Agregar nuevo producto"
           textColor="#fff"
           backgroundColor="BLUE"
+          isDisabled={!phoneNumber.trim() || products.length > 3}
         />
       </div>
-
+      {products.length > 3 && (
+        <p className="w-full text-center mb-5 text-red-600 font-bold text-[12px]">
+          Solo se permite agregar 3 productos por usuario
+        </p>
+      )}
       <SearchBar
         query={searchQuery}
         onSearchChange={handleSearchChange}
@@ -142,7 +150,7 @@ const DashboardContent = ({
         flexDirection="row"
         actions={{
           first: {
-            onClick: handleFirstButton,
+            onClick: handleViewDetails,
             //label: 'Ver',
             icon: "view",
             backgroundColor: "BLUE",

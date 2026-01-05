@@ -29,11 +29,11 @@ export function useUpdatePhoneNumber(
       }
     },
     onSuccess: async (data, variables) => {
-      // Invalidar las queries de productos para refrescar los datos
       await queryClient.invalidateQueries({ queryKey: ["products"] });
       await queryClient.invalidateQueries({
         queryKey: ["products", variables.userId],
       });
+      await queryClient.invalidateQueries({ queryKey: ["user"] });
 
       toast.success(
         "Número actualizado",

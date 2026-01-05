@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminFirestore } from "../../../shared/configs/firebase-admin";
 
-/**
- * PUT /api/product/phone
- * Actualiza el teléfono en todos los productos de un usuario
- * Body: { userId: string, phone: string }
- */
 export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
     const db = getAdminFirestore();
@@ -18,8 +13,33 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
         { status: 400 }
       );
     }
+    try {
+      const userRef = db.collection("users").doc(userId);
+      const userDoc = await userRef.get();
 
-    // Buscar todos los productos del usuario
+      if (userDoc.exists) {
+        await userRef.update({
+          phone,
+          updatedAt: new Date(),
+        });
+        console.log(
+          `[API Route] Usuario ${userId} actualizado con teléfono: ${phone}`
+        );
+      } else {
+        await userRef.set(
+          {
+            phone,
+            updatedAt: new Date(),
+          },
+          { merge: true }
+        );
+        console.log(
+          `[API Route] Usuario ${userId} creado con teléfono: ${phone}`
+        );
+      }
+    } catch (userError) {
+      console.error("[API Route] Error actualizando usuario:", userError);
+    }
     const querySnapshot = await db
       .collection("products")
       .where("userId", "==", userId)
@@ -32,7 +52,6 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Actualizar todos los productos en un batch
     const batch = db.batch();
     let updatedCount = 0;
 
@@ -44,7 +63,6 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
       updatedCount++;
     });
 
-    // Ejecutar el batch
     await batch.commit();
 
     return NextResponse.json(

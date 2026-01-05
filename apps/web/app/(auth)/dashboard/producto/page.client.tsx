@@ -3,6 +3,7 @@ import React from "react";
 import { ProductForm, useProductMutation } from "../../../features/products";
 import { useAuth } from "../../../shared/providers/AuthContext";
 import { generateProductSlug } from "../../../features/products/utils/slug";
+import { useUser } from "../../../shared/hooks/useUser";
 
 const htmlToPlainText = (html: string): string => {
   if (typeof window === "undefined") {
@@ -18,9 +19,9 @@ const htmlToPlainText = (html: string): string => {
 
 const DashboardProducto = () => {
   const auth = useAuth();
+  const { user } = useUser();
   const { createProductAsync, isLoading } = useProductMutation({
     redirectOnSuccess: "/dashboard",
-    // TODO: Implementar notificaciones con toasts
     onSuccess: () => {
       console.log("Producto creado exitosamente");
     },
@@ -33,13 +34,13 @@ const DashboardProducto = () => {
     data: Parameters<typeof createProductAsync>[0]
   ) => {
     try {
-      // Generar slug temporal (se regenerará en el servidor con el ID real)
       const tempSlug = generateProductSlug(data.title, data.price);
       await createProductAsync({
         ...data,
         descriptionClean: htmlToPlainText(data.description),
         slug: tempSlug,
         userId: auth.user?.uid,
+        phone: user?.phone || "",
       });
     } catch (error) {
       console.error("Error al crear producto:", error);

@@ -30,7 +30,7 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-const PROTECTED_ROUTES = ["/dashboard"];
+const PROTECTED_ROUTES = ["/dashboard", "/forbidden"];
 
 const isProtectedRoute = (pathname: string): boolean => {
   return PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
@@ -97,10 +97,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = async () => {
     try {
       await signOut(auth);
-      if (
-        pathname &&
-        (isProtectedRoute(pathname) || pathname === "/forbidden")
-      ) {
+      if (pathname && isProtectedRoute(pathname)) {
         router.push("/");
       }
     } catch (error) {
