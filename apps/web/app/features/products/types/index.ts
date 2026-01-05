@@ -1,6 +1,7 @@
 export interface Product {
   id: string;
   title: string;
+  sold: boolean;
   description: string;
   descriptionClean?: string;
   phone?: string;
@@ -27,6 +28,7 @@ export interface ProductCardActions {
 export interface CreateProductInput {
   title: string;
   description: string;
+  sold: boolean;
   descriptionClean?: string;
   price: number;
   phone?: string;

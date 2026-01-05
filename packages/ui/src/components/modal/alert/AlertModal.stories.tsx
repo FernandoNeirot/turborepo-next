@@ -39,6 +39,22 @@ const meta: Meta<AlertModalProps> = {
       action: "closed",
       description: "Función que se ejecuta al cerrar el modal",
     },
+    onCancel: {
+      action: "cancelled",
+      description: "Función que se ejecuta al hacer clic en cancelar",
+    },
+    onContinue: {
+      action: "continued",
+      description: "Función que se ejecuta al hacer clic en continuar",
+    },
+    cancelLabel: {
+      control: "text",
+      description: "Texto del botón cancelar",
+    },
+    continueLabel: {
+      control: "text",
+      description: "Texto del botón continuar",
+    },
   },
   args: {
     isOpen: true,
@@ -107,5 +123,104 @@ export const Warning: Story = {
     description: "Por favor, revisa la información antes de continuar.",
     variant: "warning",
     onClose: fn(),
+  },
+};
+
+export const WithButtons: Story = {
+  args: {
+    isOpen: true,
+    title: "Confirmar acción",
+    description: "¿Estás seguro de que deseas continuar con esta acción?",
+    variant: "default",
+    onClose: fn(),
+    onCancel: fn(),
+    onContinue: fn(),
+    cancelLabel: "Cancelar",
+    continueLabel: "Continuar",
+  },
+};
+
+export const WithButtonsSuccess: Story = {
+  args: {
+    isOpen: true,
+    title: "Operación exitosa",
+    description:
+      "La operación se completó correctamente. ¿Deseas realizar otra acción?",
+    variant: "success",
+    onClose: fn(),
+    onCancel: fn(),
+    onContinue: fn(),
+    cancelLabel: "No",
+    continueLabel: "Sí",
+  },
+};
+
+export const WithButtonsError: Story = {
+  args: {
+    isOpen: true,
+    title: "Error crítico",
+    description:
+      "Ha ocurrido un error. ¿Deseas intentar nuevamente o cancelar?",
+    variant: "error",
+    onClose: fn(),
+    onCancel: fn(),
+    onContinue: fn(),
+    cancelLabel: "Cancelar",
+    continueLabel: "Reintentar",
+  },
+};
+
+export const WithButtonsWarning: Story = {
+  args: {
+    isOpen: true,
+    title: "Advertencia importante",
+    description:
+      "Esta acción no se puede deshacer. ¿Estás seguro de continuar?",
+    variant: "warning",
+    onClose: fn(),
+    onCancel: fn(),
+    onContinue: fn(),
+    cancelLabel: "No, cancelar",
+    continueLabel: "Sí, continuar",
+  },
+};
+
+export const OnlyContinue: Story = {
+  args: {
+    isOpen: true,
+    title: "Información",
+    description:
+      "Por favor, confirma que has leído y entendido la información.",
+    variant: "default",
+    onClose: fn(),
+    onContinue: fn(),
+    continueLabel: "Entendido",
+  },
+};
+
+export const OnlyCancel: Story = {
+  args: {
+    isOpen: true,
+    title: "Aviso",
+    description: "Esta acción ha sido cancelada.",
+    variant: "warning",
+    onClose: fn(),
+    onCancel: fn(),
+    cancelLabel: "Cerrar",
+  },
+};
+
+export const CustomLabels: Story = {
+  args: {
+    isOpen: true,
+    title: "Confirmación personalizada",
+    description:
+      "Puedes personalizar los textos de los botones según tus necesidades.",
+    variant: "default",
+    onClose: fn(),
+    onCancel: fn(),
+    onContinue: fn(),
+    cancelLabel: "No, gracias",
+    continueLabel: "Aceptar",
   },
 };

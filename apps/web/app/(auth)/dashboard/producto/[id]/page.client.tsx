@@ -46,7 +46,6 @@ const DashboardProductoEdit = ({ product }: DashboardProductoEditProps) => {
     }
 
     try {
-      // Regenerar slug si cambió el título o precio
       const slug = generateProductSlug(data.title, data.price, product.id);
 
       await updateProductAsync({

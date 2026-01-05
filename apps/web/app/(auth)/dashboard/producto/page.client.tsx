@@ -39,6 +39,7 @@ const DashboardProducto = () => {
         ...data,
         descriptionClean: htmlToPlainText(data.description),
         slug: tempSlug,
+        sold: false,
         userId: auth.user?.uid,
         phone: user?.phone || "",
       });

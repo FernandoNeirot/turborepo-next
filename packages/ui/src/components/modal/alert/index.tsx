@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../../form/button";
 
 export type AlertModalVariant = "success" | "error" | "warning" | "default";
 
@@ -8,6 +9,10 @@ export interface AlertModalProps {
   description: string;
   variant?: AlertModalVariant;
   onClose?: () => void;
+  onCancel?: () => void;
+  onContinue?: () => void;
+  cancelLabel?: string;
+  continueLabel?: string;
 }
 
 const AlertModal = ({
@@ -16,6 +21,10 @@ const AlertModal = ({
   description,
   variant = "default",
   onClose,
+  onCancel,
+  onContinue,
+  cancelLabel = "Cancelar",
+  continueLabel = "Continuar",
 }: AlertModalProps) => {
   if (!isOpen) return null;
 
@@ -56,7 +65,37 @@ const AlertModal = ({
         <h2 className={`text-xl font-semibold ${styles.title} mb-3`}>
           {title}
         </h2>
-        <p className="text-gray-600">{description}</p>
+        <p className="text-gray-600 mb-4">{description}</p>
+
+        {(onCancel || onContinue) && (
+          <div className="flex gap-3 justify-end mt-4">
+            {onCancel && (
+              <Button
+                label={cancelLabel}
+                onClick={onCancel}
+                backgroundColor="TRANSPARENT"
+                textColor="#6b7280"
+                size="default"
+              />
+            )}
+            {onContinue && (
+              <Button
+                label={continueLabel}
+                onClick={onContinue}
+                backgroundColor={
+                  variant === "error"
+                    ? "RED"
+                    : variant === "warning"
+                      ? "PURPLE"
+                      : variant === "success"
+                        ? "GREEN"
+                        : "BLUE"
+                }
+                size="default"
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
