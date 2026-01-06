@@ -9,6 +9,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "check-types": "turbo run check-types",
+    "test": "turbo run test",
     "prepare": "husky install",
     "changeset": "changeset",
     "version": "pnpm exec changeset version",
@@ -16,7 +17,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
-    "husky": "^9.1.7",
+    "husky": "^8.0.0",
     "lint-staged": "^15.2.11",
     "prettier": "^3.7.4",
     "turbo": "^2.7.2",

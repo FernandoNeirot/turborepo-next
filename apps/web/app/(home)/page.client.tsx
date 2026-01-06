@@ -31,7 +31,6 @@ const HomeContentWrapper = () => {
   };
 
   const handleViewDetails = (slugOrId: string) => {
-    // Navegar a la página del producto usando el slug
     router.push(`/producto/${slugOrId}`);
   };
 
