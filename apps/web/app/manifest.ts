@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { projectName } from './shared/lib/contants';
 
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: projectName,
