@@ -4,6 +4,7 @@ import { useAuth } from "../../shared/providers/AuthContext";
 import { Single } from "@fernando_neirot2/ui";
 import { useRouter } from "next/navigation";
 import type { ServerUser } from "../../shared/lib/auth";
+import { projectName } from "../../shared/lib/contants";
 
 interface HeaderClientProps {
   serverUser: ServerUser | null;
@@ -45,7 +46,7 @@ const HeaderClient = ({ serverUser }: HeaderClientProps) => {
       </div>
       <div className="fixed w-full top-0 left-0 z-50">
         <Single.Header
-          title="NEGOCIA"
+          title={projectName}
           subTitle="Compra-venta Inteligente"
           logoUrl="/logo.webp"
           onClickMenu={() => setIsOpenSidebar(true)}
