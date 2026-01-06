@@ -31,6 +31,7 @@ export interface ProductCardProps {
   price?: number;
   sizeButton?: "small" | "default";
   flexDirection?: "row" | "column";
+  priority?: boolean;
 }
 
 export const ProductCard = ({
@@ -57,6 +58,7 @@ export const ProductCard = ({
   sizeButton = "default",
   flexDirection = "row",
   height = 250,
+  priority = false,
 }: ProductCardProps) => {
   const widthStyle = {
     width: typeof width === "number" ? `${width}px` : "100%",
@@ -70,9 +72,12 @@ export const ProductCard = ({
         {imageUrl ? (
           <Image
             src={imageUrl}
-            alt="Product Image"
+            alt={title || "Product Image"}
             fill
+            priority={priority}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 20vw"
             className="h-full object-contain object-center transition-transform duration-500 hover:scale-140 mx-auto"
+            loading={priority ? undefined : "lazy"}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">

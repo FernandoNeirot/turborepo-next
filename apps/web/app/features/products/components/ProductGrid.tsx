@@ -29,7 +29,7 @@ export function ProductGrid({
     <div
       className={`grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ${className}`}
     >
-      {products.map((product) => {
+      {products.map((product, index) => {
         const firstAction = actions?.first;
         const secondAction = actions?.second;
         const thirdAction = actions?.third;
@@ -53,6 +53,7 @@ export function ProductGrid({
         return (
           <Wrapper.ProductCard
             key={product.id}
+            priority={index < 4}
             onClickButtonFirst={
               firstAction && typeof firstAction.onClick === "function"
                 ? () => firstAction.onClick!(primaryIdentifier)

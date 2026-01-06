@@ -13,7 +13,7 @@ export async function prefetchProducts(
   queryClient: QueryClient,
   options: PrefetchProductsOptions = {}
 ): Promise<void> {
-  const { userId, timeout = 2000 } = options;
+  const { userId, timeout = 1000 } = options; // Reducido a 1 segundo para no bloquear LCP
 
   try {
     const prefetchPromise = prefetchQuery(

@@ -9,7 +9,11 @@ export const dynamic = "force-dynamic";
 export default async function Home(): Promise<React.ReactElement> {
   const queryClient = getQueryClient();
 
-  await prefetchProducts(queryClient);
+  prefetchProducts(queryClient).catch((error) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[Home] Prefetch falló:', error);
+    }
+  });
 
   const dehydratedState = dehydrate(queryClient);
 
