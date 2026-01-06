@@ -1,16 +1,10 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
-import {
-  onAuthStateChanged,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  User,
-} from "firebase/auth";
-import { auth } from "../configs/firebase";
+import type { User } from "firebase/auth";
 import { useRouter, usePathname } from "next/navigation";
 import { syncUser } from "../lib/users";
 import { toast, getErrorMessage } from "../lib/toast";
+import { loadFirebase, getFirebaseAuth } from "../lib/loadFirebase";
 
 interface AuthContextType {
   user: User | null;
@@ -22,8 +16,8 @@ interface AuthContextType {
 const AuthContext = createContext({
   user: null,
   loading: true,
-  loginWithGoogle: () => {},
-  logout: () => {},
+  loginWithGoogle: () => { },
+  logout: () => { },
 } as AuthContextType);
 
 interface AuthProviderProps {
@@ -39,38 +33,76 @@ const isProtectedRoute = (pathname: string): boolean => {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [firebaseLoaded, setFirebaseLoaded] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        const token = await currentUser.getIdToken();
+    let mounted = true;
+    let unsubscribe: (() => void) | null = null;
 
-        await fetch("/api/login", {
-          method: "POST",
-          body: JSON.stringify({ token }),
-          headers: { "Content-Type": "application/json" },
-        });
-        if (pathname.startsWith("/forbidden")) {
-          router.push("/");
+    const initializeAuth = async () => {
+      if (isProtectedRoute(pathname)) {
+        try {
+          await loadFirebase();
+          if (!mounted) return;
+
+          const { onAuthStateChanged } = await import('firebase/auth');
+          const auth = await getFirebaseAuth();
+
+          unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (!mounted) return;
+
+            if (currentUser) {
+              const token = await currentUser.getIdToken();
+
+              await fetch("/api/login", {
+                method: "POST",
+                body: JSON.stringify({ token }),
+                headers: { "Content-Type": "application/json" },
+              });
+              if (pathname.startsWith("/forbidden")) {
+                router.push("/");
+              }
+              setUser(currentUser);
+            } else {
+              await fetch("/api/logout", { method: "POST" });
+              setUser(null);
+            }
+            setLoading(false);
+            setFirebaseLoaded(true);
+          });
+        } catch (error) {
+          console.error("Error inicializando Firebase:", error);
+          if (mounted) {
+            setLoading(false);
+            setFirebaseLoaded(false);
+          }
         }
-        // TODO: Agregarle datos del user desde Firestore
-        setUser(currentUser);
       } else {
-        await fetch("/api/logout", { method: "POST" });
-        setUser(null);
+        setLoading(false);
       }
-      setLoading(false);
-    });
+    };
 
-    return () => unsubscribe();
-  }, [router]);
+    initializeAuth();
+
+    return () => {
+      mounted = false;
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [pathname, router]);
 
   const loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
     try {
+      await loadFirebase();
+      const { GoogleAuthProvider, signInWithPopup } = await import('firebase/auth');
+      const auth = await getFirebaseAuth();
+
+      const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
+
       try {
         await syncUser(result.user);
       } catch (syncError) {
@@ -96,7 +128,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = async () => {
     try {
-      await signOut(auth);
+      if (firebaseLoaded) {
+        const { signOut } = await import('firebase/auth');
+        const auth = await getFirebaseAuth();
+        await signOut(auth);
+      } else {
+        await fetch("/api/logout", { method: "POST" });
+        setUser(null);
+      }
+
       if (pathname && isProtectedRoute(pathname)) {
         router.push("/");
       }

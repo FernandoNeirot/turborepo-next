@@ -1,8 +1,9 @@
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { db } from "../configs/firebase";
 import type { User } from "firebase/auth";
+import { getFirebaseFirestore } from "./loadFirebase";
 
 export async function syncUser(user: User): Promise<void> {
+  const db = await getFirebaseFirestore();
+  const { doc, setDoc, getDoc } = await import("firebase/firestore");
   const userRef = doc(db, "users", user.uid);
 
   try {
