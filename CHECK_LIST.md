@@ -21,12 +21,12 @@
 
 ## ⏳ Tareas Pendientes
 
-- [] Completar los test para todos los componentes de la libreria
-- [] Cambiar el borrado fisico por logico con estado vendido
-- [] Agregar login con mail y clave
-- [] Implementar i18n para multilenguaje
-- [] Agregar lazy laoding para productos de la home
-- [] Agregar features busqueda
-- [] Agregar categorias para para producto
-- [] Agregar Gestion de usuarios para role Admin
-- [] Agregar gestion de tiendas
+- [ ] Completar los test para todos los componentes de la libreria
+- [ ] Cambiar el borrado fisico por logico con estado vendido
+- [ ] Agregar login con mail y clave
+- [ ] Implementar i18n para multilenguaje
+- [ ] Agregar lazy laoding para productos de la home
+- [ ] Agregar features busqueda
+- [ ] Agregar categorias para para producto
+- [ ] Agregar Gestion de usuarios para role Admin
+- [ ] Agregar gestion de tiendas
