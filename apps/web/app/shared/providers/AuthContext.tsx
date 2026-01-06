@@ -99,14 +99,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await loadFirebase();
       const { GoogleAuthProvider, signInWithPopup } = await import('firebase/auth');
       const auth = await getFirebaseAuth();
-
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
+
+      const token = await result.user.getIdToken();
+      const loginResponse = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({ token }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!loginResponse.ok) {
+        throw new Error("Error al guardar la sesión");
+      }
+
+      setUser(result.user);
 
       try {
         await syncUser(result.user);
       } catch (syncError) {
-        console.error("Error al sincronizar usuario:", syncError);
         const errorMessage = getErrorMessage(syncError);
         if (
           errorMessage.includes("permission") ||

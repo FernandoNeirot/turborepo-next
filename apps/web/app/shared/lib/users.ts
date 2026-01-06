@@ -8,7 +8,6 @@ export async function syncUser(user: User): Promise<void> {
 
   try {
     const userSnap = await getDoc(userRef);
-
     if (!userSnap.exists()) {
       await setDoc(
         userRef,
