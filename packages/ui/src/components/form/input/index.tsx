@@ -12,6 +12,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
   placeholder?: string;
   variant?: "default" | "search";
+  width?: string
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -49,7 +50,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ? "focus:ring-blue-300"
           : "focus:ring-purple-300";
     return (
-      <div className="flex flex-col gap-1 w-full">
+      <div className="flex flex-col gap-1 w-full" style={{ width: rest.width || '100%' }}>
         {label && (
           <label
             className={`text-sm font-medium ${isDisabled ? "text-gray-300" : "text-gray-700"}`}
@@ -62,13 +63,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           disabled={isDisabled}
           className={`
           px-3 py-2 ${variant === "search" ? "" : "border "} focus:outline-none focus:ring-2 ${classByAppName}
-          ${
-            error
+          ${error
               ? "border-red-500"
               : isDisabled
                 ? "border-gray-200 cursor-not-allowed text-gray-400"
                 : "border-gray-300"
-          }`}
+            }`}
           type={type}
           name={name}
           id={id}

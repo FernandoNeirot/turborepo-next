@@ -217,6 +217,7 @@ export async function updateProduct(
 export interface UpdatePhoneNumberInput {
   userId: string;
   phone: string;
+  adress?: string;
 }
 
 export interface UpdatePhoneNumberResponse {

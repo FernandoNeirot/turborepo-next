@@ -5,7 +5,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
     const db = getAdminFirestore();
     const body = await request.json();
-    const { userId, phone } = body;
+    const { userId, phone, adress } = body;
 
     if (!userId || !phone) {
       return NextResponse.json(
@@ -20,6 +20,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
       if (userDoc.exists) {
         await userRef.update({
           phone,
+          adress,
           updatedAt: new Date(),
         });
         console.log(
@@ -29,6 +30,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
         await userRef.set(
           {
             phone,
+            adress,
             updatedAt: new Date(),
           },
           { merge: true }

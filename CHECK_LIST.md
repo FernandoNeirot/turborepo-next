@@ -21,6 +21,7 @@
 
 ## ⏳ Tareas Pendientes
 
+- [ ] Agregar react-hook-form para datos generales en dashboard
 - [ ] Completar los test para todos los componentes de la libreria
 - [ ] Cambiar el borrado fisico por logico con estado vendido
 - [ ] Agregar login con mail y clave

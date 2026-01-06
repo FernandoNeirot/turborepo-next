@@ -68,7 +68,8 @@ export async function getServerUserData(): Promise<User | null> {
       uid: serverUser.uid,
       email: serverUser.email,
       displayName: serverUser.displayName,
-      phone: userData?.phone || null,
+      phone: userData?.phone.replace("+54", "") || null,
+      adress: userData?.adress || null,
     } as User;
     return user;
   } catch (error) {

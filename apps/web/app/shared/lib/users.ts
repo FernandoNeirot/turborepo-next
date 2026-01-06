@@ -16,6 +16,7 @@ export async function syncUser(user: User): Promise<void> {
           email: user.email,
           createdAt: new Date(),
           phone: "",
+          adress: "",
           role: "customer",
         },
         { merge: true }
@@ -30,6 +31,7 @@ export async function syncUser(user: User): Promise<void> {
           email: user.email,
           createdAt: new Date(),
           phone: "",
+          adress: "",
           role: "customer",
         },
         { merge: true }

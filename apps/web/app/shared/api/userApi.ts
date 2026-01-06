@@ -21,6 +21,7 @@ export interface User {
   displayName: string | null;
   phone: string | null;
   name?: string;
+  adress?: string;
   role?: string;
   createdAt?: Date | string;
   [key: string]: unknown;
