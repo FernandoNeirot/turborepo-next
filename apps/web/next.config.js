@@ -29,7 +29,7 @@ const nextConfig = {
       },
     ],
   },
-  // Configurar headers de seguridad para Firebase Auth popups
+  // Configurar headers de seguridad para Firebase Auth popups y mejores prácticas
   async headers() {
     return [
       {
@@ -42,6 +42,26 @@ const nextConfig = {
           {
             key: 'Cross-Origin-Embedder-Policy',
             value: 'unsafe-none',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
           },
         ],
       },

@@ -8,9 +8,49 @@ import { GlobalLoader } from "./shared/components/GlobalLoader";
 import { projectName } from "./shared/lib/contants";
 
 export const metadata: Metadata = {
-  title: projectName,
+  title: {
+    default: projectName,
+    template: `%s | ${projectName}`,
+  },
   description:
     "Encuentra las mejores ofertas y oportunidades en nuestro bazar en línea.",
+  keywords: ["bazar", "ofertas", "productos", "mercado", "emprendedor"],
+  authors: [{ name: "Mercado del Emprendedor" }],
+  creator: "Mercado del Emprendedor",
+  publisher: "Mercado del Emprendedor",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: process.env.NEXT_PUBLIC_BASE_URL
+    ? new URL(process.env.NEXT_PUBLIC_BASE_URL)
+    : undefined,
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    siteName: projectName,
+    title: projectName,
+    description:
+      "Encuentra las mejores ofertas y oportunidades en nuestro bazar en línea.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
+  themeColor: "#1e40af",
 };
 
 export default function RootLayout({
