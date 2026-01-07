@@ -18,6 +18,7 @@
 - [✅] Agregar Proxy para paginas con session
 - [✅] Generar un id para url de producto sin exponer id principal del producto
 - [✅] Agregar SEO en productos
+- [✅] Agregar features busqueda
 
 ## ⏳ Tareas Pendientes
 
@@ -27,7 +28,6 @@
 - [ ] Agregar login con mail y clave
 - [ ] Implementar i18n para multilenguaje
 - [ ] Agregar lazy laoding para productos de la home
-- [ ] Agregar features busqueda
 - [ ] Agregar categorias para para producto
 - [ ] Agregar Gestion de usuarios para role Admin
 - [ ] Agregar gestion de tiendas
