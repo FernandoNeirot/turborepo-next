@@ -26,9 +26,11 @@ export function useProducts({
   const { data, isLoading, error } = useQuery({
     queryKey: userId ? ['products', userId] : ['products'],
     queryFn: () => getProducts(userId),
-    staleTime: 0,
+    staleTime: 3600 * 1000, // 1 hora - los datos se consideran frescos por 1 hora
+    gcTime: 3600 * 1000 * 2, // 2 horas - los datos se mantienen en cache por 2 horas
     initialData: initialData,
-    refetchOnMount: true,
+    refetchOnMount: false, // No refetchear si los datos están frescos
+    refetchOnWindowFocus: false, // No refetchear al cambiar de ventana
   });
 
   const filteredProducts = useMemo(() => {

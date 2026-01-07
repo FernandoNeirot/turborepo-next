@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
         id: doc.id,
       } as Product);
     });
-
+    console.log("consulto ddatos")
     return NextResponse.json({ data: products, error: null }, { status: 200 });
   } catch (error) {
     console.error("Error fetching products:", error);

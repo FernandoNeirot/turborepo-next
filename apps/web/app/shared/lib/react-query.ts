@@ -14,7 +14,8 @@ export function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 3600 * 1000, // 1 hora
+        staleTime: 3600 * 1000, // 1 hora - los datos se consideran frescos por 1 hora
+        gcTime: 3600 * 1000 * 2, // 2 horas - los datos se mantienen en cache por 2 horas
         refetchOnWindowFocus: false,
         retry: 1,
         // Los errores de queries se manejan individualmente en cada componente
@@ -49,7 +50,8 @@ export async function prefetchQuery<T>(
   await queryClient.prefetchQuery({
     queryKey,
     queryFn,
-    staleTime: 3600 * 1000,
+    staleTime: 3600 * 1000, // 1 hora
+    gcTime: 3600 * 1000 * 2, // 2 horas
     retry: 1,
     retryDelay: 1000,
   });
