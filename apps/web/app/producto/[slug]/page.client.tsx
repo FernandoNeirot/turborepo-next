@@ -15,7 +15,7 @@ interface ProductPageClientProps {
 export default function ProductPageClient({ product }: ProductPageClientProps) {
   const router = useRouter();
   const { products } = useProducts({ userId: product.userId, searchQuery: "" });
-  console.log(products)
+
   const productUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/producto/${product.slug || product.id}`
@@ -28,13 +28,13 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
     router.push(`/producto/${slugOrId}`);
   };
 
-  const handleSecondButton = (productId: string) => {
-    router.push(`/dashboard/producto/${productId}`);
+  const handleSecondButton = () => {
+    window.open(linkSeller, "_blank", "noopener,noreferrer");
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-310 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
           {/* Imagen del producto */}
           <div className="relative w-full aspect-square bg-gray-200 rounded-lg overflow-hidden">

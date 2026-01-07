@@ -44,7 +44,6 @@ const HomeContentWrapper = () => {
         query={searchQuery}
         onSearchChange={handleSearchChange}
         className=""
-        isDisabled={true}
       />
       <ProductList
         products={filteredProducts}
