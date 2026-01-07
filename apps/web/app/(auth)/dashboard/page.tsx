@@ -3,7 +3,6 @@ import { dehydrate } from "@tanstack/react-query";
 import { getQueryClient } from "../../shared/lib/react-query";
 import { getUserIdFromSession } from "../../shared/lib/auth";
 import { prefetchUser } from "../../shared/lib/prefetchUser";
-import { prefetchProducts } from "../../features/products";
 import DashboardClient from "./page.client";
 
 export default async function DashboardPage(): Promise<React.ReactElement> {
@@ -12,8 +11,6 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
   await prefetchUser(queryClient);
 
   const userId = await getUserIdFromSession();
-  if (userId) await prefetchProducts(queryClient, { userId });
-
   const dehydratedState = dehydrate(queryClient);
 
   return (
