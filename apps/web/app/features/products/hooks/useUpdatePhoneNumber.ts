@@ -36,14 +36,14 @@ export function useUpdatePhoneNumber(
       await queryClient.invalidateQueries({ queryKey: ["user"] });
 
       toast.success(
-        "Número actualizado",
-        "El número de teléfono se ha actualizado exitosamente"
+        "Datos actualizados",
+        "Los datos se han actualizado exitosamente"
       );
       options.onSuccess?.(data);
     },
     onError: (error: Error) => {
       hideLoader();
-      toast.error("Error al actualizar número", getErrorMessage(error));
+      toast.error("Error al actualizar", getErrorMessage(error));
       options.onError?.(error);
     },
   });

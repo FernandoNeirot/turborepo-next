@@ -2,6 +2,7 @@ export interface Product {
   id: string;
   title: string;
   sold: boolean;
+  adress?: string;
   description: string;
   descriptionClean?: string;
   phone?: string;
@@ -9,6 +10,7 @@ export interface Product {
   imageUrl: string;
   imageFile?: File;
   slug?: string;
+  userId?: string;
 }
 
 export interface ProductCardButtonAction {

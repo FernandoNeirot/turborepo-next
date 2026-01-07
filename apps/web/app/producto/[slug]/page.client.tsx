@@ -4,18 +4,34 @@ import React from "react";
 import Image from "next/image";
 import type { Product } from "../../features/products/types";
 import { Form as FormUI } from "@fernando_neirot2/ui";
+import { ProductList, useProducts } from "../../features/products";
+import { useRouter } from "next/navigation";
 
 interface ProductPageClientProps {
   product: Product;
+  products: Product[];
 }
 
 export default function ProductPageClient({ product }: ProductPageClientProps) {
+  const router = useRouter();
+  const { products } = useProducts({ userId: product.userId, searchQuery: "" });
+  console.log(products)
   const productUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/producto/${product.slug || product.id}`
       : `/producto/${product.slug || product.id}`;
   const whatsappMessage = `Hola,%20estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(product.title)}.%0A${encodeURIComponent(productUrl)}`;
   const linkSeller = `https://wa.me/${product.phone}?text=${whatsappMessage}`;
+
+
+  const handleViewDetails = (slugOrId: string) => {
+    router.push(`/producto/${slugOrId}`);
+  };
+
+  const handleSecondButton = (productId: string) => {
+    router.push(`/dashboard/producto/${productId}`);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
@@ -60,6 +76,9 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
             </div>
           </div>
         </div>
+        <div className="text-[20px] mb-6 text-gray-700">
+          <b>Ubicación:</b> {product.adress}
+        </div>
         <FormUI.Button
           onClick={() => {
             window.open(linkSeller, "_blank", "noopener,noreferrer");
@@ -69,6 +88,33 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
           width="100%"
           backgroundColor="GREEN"
         />
+        {
+          products.filter(item => item.id !== product.id).length > 0 &&
+          <div className="mt-6">
+            <div className="text-[20px] mb-4 text-gray-700">Mas productos del vendedor</div>
+            <ProductList
+              products={products.filter(item => item.id !== product.id)}
+              isLoading={false}
+              error={""}
+              searchQuery={""}
+              actions={{
+                first: {
+                  onClick: handleViewDetails,
+                  label: 'Ver detalles',
+                  backgroundColor: "BLUE",
+                  tooltip: "Ver detalles",
+                },
+                second: {
+                  onClick: handleSecondButton,
+                  label: 'Contactar al vendedor',
+                  backgroundColor: "GREEN",
+                  tooltip: "Contactar al vendedor",
+                },
+
+              }}
+            />
+          </div>
+        }
       </div>
     </div>
   );

@@ -65,13 +65,13 @@ export async function generateMetadata({
         siteName: projectName,
         images: product.imageUrl
           ? [
-              {
-                url: product.imageUrl,
-                width: 1200,
-                height: 630,
-                alt: product.title,
-              },
-            ]
+            {
+              url: product.imageUrl,
+              width: 1200,
+              height: 630,
+              alt: product.title,
+            },
+          ]
           : [],
         locale: "es_ES",
         type: "website",
@@ -109,7 +109,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       notFound();
     }
 
-    return <ProductPageClient product={product} />;
+    return <ProductPageClient product={product} products={[]} />;
   } catch (error) {
     console.error("Error al obtener producto:", error);
     notFound();

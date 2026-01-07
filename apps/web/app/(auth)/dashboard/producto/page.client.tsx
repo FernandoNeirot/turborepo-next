@@ -4,6 +4,7 @@ import { ProductForm, useProductMutation } from "../../../features/products";
 import { useAuth } from "../../../shared/providers/AuthContext";
 import { generateProductSlug } from "../../../features/products/utils/slug";
 import { useUser } from "../../../shared/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 const htmlToPlainText = (html: string): string => {
   if (typeof window === "undefined") {
@@ -20,6 +21,7 @@ const htmlToPlainText = (html: string): string => {
 const DashboardProducto = () => {
   const auth = useAuth();
   const { user } = useUser();
+  const router = useRouter();
   const { createProductAsync, isLoading } = useProductMutation({
     redirectOnSuccess: "/dashboard",
     onSuccess: () => {
@@ -53,6 +55,7 @@ const DashboardProducto = () => {
       onSubmit={handleSubmit}
       isLoading={isLoading}
       submitLabel="Crear Producto"
+      onCancel={() => router.push("/dashboard")}
     />
   );
 };

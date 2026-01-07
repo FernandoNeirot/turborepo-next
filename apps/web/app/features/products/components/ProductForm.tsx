@@ -10,6 +10,7 @@ import { uploadAndOptimizeImage } from "../../../shared/lib/imageStorage";
 export interface ProductFormProps {
   initialData?: Product;
   onSubmit: (data: CreateProductInput) => void | Promise<void>;
+  onCancel?: () => void;
   isLoading?: boolean;
   submitLabel?: string;
 }
@@ -17,6 +18,7 @@ export interface ProductFormProps {
 export function ProductForm({
   initialData,
   onSubmit,
+  onCancel,
   isLoading = false,
   submitLabel = "Guardar",
 }: ProductFormProps) {
@@ -36,11 +38,11 @@ export function ProductForm({
   } = useForm<CreateProductInput>({
     defaultValues: initialData
       ? {
-          title: initialData.title,
-          description: initialData.description,
-          price: initialData.price,
-          imageUrl: initialData.imageUrl,
-        }
+        title: initialData.title,
+        description: initialData.description,
+        price: initialData.price,
+        imageUrl: initialData.imageUrl,
+      }
       : undefined,
   });
 
@@ -48,7 +50,6 @@ export function ProductForm({
 
   const onSubmitForm: SubmitHandler<CreateProductInput> = async (data) => {
     try {
-      // Si hay una imagen seleccionada, subirla primero
       if (selectedImage) {
         setIsUploadingImage(true);
         setUploadError(null);
@@ -180,13 +181,13 @@ export function ProductForm({
       </div>
       <div className="sm:col-span-2 flex justify-end gap-4">
         <Form.Button
-          onClick={() => {}}
+          onClick={() => onCancel?.()}
           label="Cancelar"
           textColor="#000"
           backgroundColor="TRANSPARENT"
         />
         <Form.Button
-          onClick={() => {}}
+          onClick={() => { }}
           label={isLoading || isUploadingImage ? "Guardando..." : submitLabel}
           textColor="#fff"
           backgroundColor="BLUE"

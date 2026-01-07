@@ -78,6 +78,7 @@ const DashboardProductoEdit = ({ product }: DashboardProductoEditProps) => {
     <ProductForm
       initialData={product}
       onSubmit={handleSubmit}
+      onCancel={() => router.push("/dashboard")}
       isLoading={isLoading}
       submitLabel="Actualizar Producto"
     />

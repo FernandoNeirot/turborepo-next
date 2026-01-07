@@ -60,6 +60,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
     querySnapshot.forEach((doc) => {
       batch.update(doc.ref, {
         phone,
+        adress,
         updatedAt: new Date(),
       });
       updatedCount++;

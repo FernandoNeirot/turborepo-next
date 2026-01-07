@@ -29,7 +29,7 @@ const Header = ({
 }: HeaderProps) => {
   return (
     <div
-      style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
       className={`relative w-full text-black min-h-15 flex items-center px-4 shadow-md justify-between`}
     >
       <div

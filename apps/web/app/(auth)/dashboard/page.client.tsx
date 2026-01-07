@@ -48,7 +48,7 @@ const DashboardContent = ({
   const hasInitializedPhone = useRef(false);
   const { user } = useUser();
 
-  const { products, isLoading, error } = useProducts({ userId, searchQuery });
+  const { products, isLoading, error, filteredProducts } = useProducts({ userId, searchQuery });
   const { deleteProduct } = useProductMutation({
     onSuccess: () => {
       console.log("Producto eliminado exitosamente");
@@ -65,6 +65,7 @@ const DashboardContent = ({
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
   };
+
   const handleViewDetails = (slugOrId: string) => {
     router.push(`/producto/${slugOrId}`);
   };
@@ -146,6 +147,11 @@ const DashboardContent = ({
           />
         </div>
       </div>
+      <div
+        className="text-[18px] font-bold mb-2"
+      >
+        Productos
+      </div>
       <div className="sm:flex sm:items-center mb-4 gap-4">
         <p className="text-lg flex items-center">
           Total de productos agregados:{" "}
@@ -179,10 +185,10 @@ const DashboardContent = ({
         query={searchQuery}
         onSearchChange={handleSearchChange}
         className=""
-        isDisabled={true}
+      // isDisabled={true}
       />
       <ProductList
-        products={products}
+        products={filteredProducts}
         isLoading={isLoading}
         error={error}
         searchQuery={searchQuery}
