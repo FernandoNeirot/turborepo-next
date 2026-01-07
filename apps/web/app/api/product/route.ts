@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
         id: doc.id,
       } as Product);
     });
+    console.log("consulta datos", "/product")
     return NextResponse.json({ data: products, error: null }, { status: 200 });
   } catch (error) {
     console.error("[API Route] Error fetching products:", error);

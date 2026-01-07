@@ -8,7 +8,7 @@ export async function GET() {
     if (!user) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
-
+    console.log("consulta datos", "/user");
     return NextResponse.json({ data: user, error: null }, { status: 200 });
   } catch (error) {
     console.error("[API Route] Error fetching user:", error);

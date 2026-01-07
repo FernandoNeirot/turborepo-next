@@ -18,8 +18,6 @@ export function makeQueryClient() {
         gcTime: 3600 * 1000 * 2, // 2 horas - los datos se mantienen en cache por 2 horas
         refetchOnWindowFocus: false,
         retry: 1,
-        // Los errores de queries se manejan individualmente en cada componente
-        // No se muestran toasts automáticamente para queries porque pueden ser transitorios
       },
       mutations: {
         // Los errores de mutaciones se manejan en cada hook usando toast

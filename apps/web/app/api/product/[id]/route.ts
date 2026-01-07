@@ -5,10 +5,6 @@ import {
 } from "../../../shared/configs/firebase-admin";
 import { generateProductSlug } from "../../../features/products/utils/slug";
 
-/**
- * GET /api/product/[id]
- * Obtiene un producto por su ID
- */
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -27,7 +23,7 @@ export async function GET(
     }
 
     const productData = { id: productSnap.id, ...productSnap.data() };
-
+    console.log("consulta datos", `/product/${id}`);
     return NextResponse.json(
       { data: productData, error: null },
       { status: 200 }
