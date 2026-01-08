@@ -1,5 +1,13 @@
 # @repo/ui
 
+## 0.2.0
+
+### Minor Changes
+
+- d2da1ac: Agregado componente SidebarMobile con animaciones suaves y soporte para autenticación.
+  Agregado componente Loader con diferentes variantes y stories de Storybook.
+  Mejoras en animaciones del SidebarMobile para transiciones suaves al abrir/cerrar.
+
 ## 0.1.0
 
 ### Minor Changes
