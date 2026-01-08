@@ -6,25 +6,15 @@ function generateFileName(originalName?: string): string {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 9);
   const extension = 'webp';
-  
+
   if (originalName) {
     const nameWithoutExt = originalName.replace(/\.[^/.]+$/, '');
     return `${nameWithoutExt}-${timestamp}-${random}.${extension}`;
   }
-  
+
   return `image-${timestamp}-${random}.${extension}`;
 }
 
-/**
- * API Route para subir y optimizar imágenes
- * 
- * POST /api/images
- * Body: FormData con campo 'image' que contiene el archivo
- * Query params:
- *   - folder: Carpeta en Storage (default: 'images')
- *   - quality: Calidad WebP 0-100 (default: 80)
- *   - fileName: Nombre personalizado (opcional)
- */
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -65,12 +55,10 @@ export async function POST(request: NextRequest) {
 
     const finalFileName = fileName || generateFileName(file.name);
 
-    // Usar Firebase Admin SDK para subir el archivo (tiene permisos completos)
     const adminStorage = getAdminStorage();
     const bucket = adminStorage.bucket();
     const fileRef = bucket.file(`${folder}/${finalFileName}`);
 
-    // Subir el archivo
     await fileRef.save(webpBuffer, {
       contentType: 'image/webp',
       metadata: {
@@ -78,7 +66,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Hacer el archivo público y obtener la URL
     await fileRef.makePublic();
     const url = `https://storage.googleapis.com/${bucket.name}/${folder}/${finalFileName}`;
 

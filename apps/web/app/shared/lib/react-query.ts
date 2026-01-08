@@ -1,28 +1,19 @@
-/**
- * Utilidades para React Query con SSR
- * Estas funciones ayudan a pre-fetch datos en el servidor
- * y hidratarlos en el cliente
- */
 
 import {
   QueryClient,
-  dehydrate,
-  HydrationBoundary,
 } from "@tanstack/react-query";
 
 export function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 3600 * 1000, // 1 hora - los datos se consideran frescos por 1 hora
-        gcTime: 3600 * 1000 * 2, // 2 horas - los datos se mantienen en cache por 2 horas
+        staleTime: 3600 * 1000 * 12,
+        gcTime: 3600 * 1000 * 24,
         refetchOnWindowFocus: false,
         retry: 1,
       },
-      mutations: {
-        // Los errores de mutaciones se manejan en cada hook usando toast
-        // Ver: useProductMutation, useUpdatePhoneNumber, etc.
-      },
+      // mutations: {
+      // },
     },
   });
 }
@@ -48,8 +39,8 @@ export async function prefetchQuery<T>(
   await queryClient.prefetchQuery({
     queryKey,
     queryFn,
-    staleTime: 3600 * 1000, // 1 hora
-    gcTime: 3600 * 1000 * 2, // 2 horas
+    staleTime: 3600 * 1000 * 12,
+    gcTime: 3600 * 1000 * 24,
     retry: 1,
     retryDelay: 1000,
   });
@@ -59,7 +50,7 @@ export async function ensureQueryData<T>(
   queryClient: QueryClient,
   queryKey: unknown[],
   queryFn: () => Promise<T>,
-  staleTime: number = 3600 * 1000
+  staleTime: number = 3600 * 1000 * 12
 ) {
   await queryClient.ensureQueryData({
     queryKey,
