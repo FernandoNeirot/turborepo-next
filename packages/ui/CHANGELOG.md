@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.2.1
+
+### Patch Changes
+
+- Nueva versión de la librería UI con mejoras y correcciones.
+
 ## 0.2.0
 
 ### Minor Changes

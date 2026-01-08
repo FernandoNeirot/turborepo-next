@@ -13,7 +13,9 @@
     "prepare": "husky install",
     "changeset": "changeset",
     "version:changeset": "pnpm exec changeset version",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "publish:direct": "node scripts/publish-direct.js",
+    "publish:ui": "node scripts/publish-direct.js"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
