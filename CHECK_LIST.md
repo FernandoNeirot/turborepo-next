@@ -19,6 +19,8 @@
 - [✅] Generar un id para url de producto sin exponer id principal del producto
 - [✅] Agregar SEO en productos
 - [✅] Agregar features busqueda
+- [✅] Agrego pagina con Open AI "/prueba-open-ai"
+  para facilitador de estudio con un contenido proporcionado
 
 ## ⏳ Tareas Pendientes
 
