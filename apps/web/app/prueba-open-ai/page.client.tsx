@@ -9,7 +9,6 @@ const PruebaAIClient = () => {
     const [inputText, setInputText] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [result, setResult] = useState<StudyMaterial | null>(null)
-    console.log(result)
     const handleClick = async () => {
         if (!inputText.trim()) return;
 

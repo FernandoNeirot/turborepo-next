@@ -1,5 +1,6 @@
 import { OpenAI } from 'openai';
 import { NextResponse } from 'next/server';
+import { getAdminFirestore } from '../../shared/configs/firebase-admin';
 
 const openai = new OpenAI({
     apiKey: process.env.NEXT_PUBLIC_OPEN_AI_API_KEY,
@@ -35,6 +36,15 @@ export async function POST(req: Request) {
         });
 
         const content = response?.choices?.[0]?.message?.content ?? "{}";
+
+        const db = getAdminFirestore();
+        const body = { text, difficulty, response: JSON.parse(content) };
+        // await db.collection("consultas-open-ai").add(body);
+        const now = new Date();
+        const pad = (n: number) => n.toString().padStart(2, '0');
+        const id = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}_${Math.floor(Math.random() * 10)}`;
+        await db.collection("consultas-open-ai").doc(id).set(body);
+
         return NextResponse.json(JSON.parse(content));
 
     } catch (error) {
